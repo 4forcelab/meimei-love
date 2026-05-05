@@ -463,3 +463,45 @@ footer {
 @media (max-width: 768px) {
   .social-inner { grid-template-columns: 1fr; gap: 2rem; }
 }
+
+/* ANIMATED DRIP WAVE */
+.drip-animated svg { overflow: visible; }
+
+@keyframes wave1 {
+  0%   { d: path("M0,20 Q180,90 360,40 Q540,0 720,50 Q900,90 1080,35 Q1260,0 1440,45 L1440,0 L0,0 Z"); }
+  50%  { d: path("M0,35 Q180,60 360,20 Q540,80 720,30 Q900,70 1080,50 Q1260,20 1440,30 L1440,0 L0,0 Z"); }
+  100% { d: path("M0,20 Q180,90 360,40 Q540,0 720,50 Q900,90 1080,35 Q1260,0 1440,45 L1440,0 L0,0 Z"); }
+}
+@keyframes wave2 {
+  0%   { d: path("M0,35 Q200,100 400,45 Q600,0 800,55 Q1000,100 1200,40 Q1350,5 1440,50 L1440,0 L0,0 Z"); }
+  50%  { d: path("M0,50 Q200,20 400,60 Q600,90 800,35 Q1000,10 1200,60 Q1350,85 1440,35 L1440,0 L0,0 Z"); }
+  100% { d: path("M0,35 Q200,100 400,45 Q600,0 800,55 Q1000,100 1200,40 Q1350,5 1440,50 L1440,0 L0,0 Z"); }
+}
+@keyframes wave3 {
+  0%   { d: path("M0,0 L0,50 Q180,100 360,50 Q540,0 720,55 Q900,100 1080,45 Q1260,5 1440,55 L1440,0 Z"); }
+  50%  { d: path("M0,0 L0,40 Q180,80 360,35 Q540,10 720,65 Q900,90 1080,30 Q1260,15 1440,40 L1440,0 Z"); }
+  100% { d: path("M0,0 L0,50 Q180,100 360,50 Q540,0 720,55 Q900,100 1080,45 Q1260,5 1440,55 L1440,0 Z"); }
+}
+
+.drip-path-1 { animation: wave1 6s ease-in-out infinite; }
+.drip-path-2 { animation: wave2 8s ease-in-out infinite; }
+.drip-path-3 { animation: wave3 5s ease-in-out infinite; }
+
+/* Extra sparkles outside hero (subtle, scattered) */
+.sparkle-global {
+  position: fixed;
+  pointer-events: none;
+  font-size: 0.8rem;
+  opacity: 0;
+  animation: sparkleFloat 8s ease-in-out infinite;
+  z-index: 0;
+}
+@keyframes sparkleFloat {
+  0%   { opacity: 0; transform: translateY(0) scale(0.8); }
+  20%  { opacity: 0.5; }
+  80%  { opacity: 0.3; }
+  100% { opacity: 0; transform: translateY(-40px) scale(1.1); }
+}
+
+/* OG image note in README */
+/* images/og-image.jpg: 1200x630px, 品牌主視覺橫幅，用於社群分享預覽 */
