@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://love.4force.com.tw/sitemap.xml
