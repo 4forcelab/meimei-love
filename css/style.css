@@ -505,3 +505,15 @@ footer {
 
 /* OG image note in README */
 /* images/og-image.jpg: 1200x630px, 品牌主視覺橫幅，用於社群分享預覽 */
+
+/* 4-column order grid */
+.order-grid-4 {
+  grid-template-columns: repeat(4, minmax(220px, 1fr));
+  max-width: 1200px;
+}
+@media (max-width: 1024px) {
+  .order-grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .order-grid-4 { grid-template-columns: 1fr; }
+}
