@@ -614,3 +614,14 @@ footer {
   position: relative;
   z-index: 1;
 }
+@media (max-width: 768px) {
+  .watermark-section::after {
+    font-size: 22vw;
+    right: -4vw;
+    bottom: -1rem;
+  }
+  #order.watermark-section::after,
+  #social.watermark-section::after {
+    left: -4vw;
+  }
+}
