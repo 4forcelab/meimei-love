@@ -540,3 +540,29 @@ body.jojo-mode .sticker-jojo{display:block!important;position:fixed!important;wi
   .gacha-modal{width:min(500px,88vw);}
   .gacha-modal .store-card{min-height:390px!important;padding:2rem!important;}
 }
+
+/* === v4.1 mobile footer overscroll fix ===
+   iOS/Safari sometimes shows the body canvas after the footer.
+   Make the page-end canvas chocolate, and give the footer enough safe-area room.
+*/
+html, body {
+  min-height: 100%;
+}
+body {
+  background: var(--brown-d);
+}
+.hero, .order, .mood, .ritual, .social, .claim-verified {
+  background-clip: padding-box;
+}
+footer {
+  margin-bottom: 0 !important;
+  padding-bottom: calc(3rem + env(safe-area-inset-bottom, 0px));
+}
+@media (max-width: 980px) {
+  footer {
+    padding-bottom: calc(7.5rem + env(safe-area-inset-bottom, 0px));
+  }
+  .claim-verified {
+    margin-bottom: 0 !important;
+  }
+}
