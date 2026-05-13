@@ -1,47 +1,26 @@
-// Scroll reveal
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((e, i) => {
-    if (e.isIntersecting) {
-      setTimeout(() => e.target.classList.add('visible'), i * 80);
-    }
-  });
-}, { threshold: 0.12 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+const observer=new IntersectionObserver((entries)=>{entries.forEach((entry,i)=>{if(entry.isIntersecting){setTimeout(()=>entry.target.classList.add('visible'),i*70)}})},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 
-// Sparkle parallax (desktop only)
-if (window.innerWidth > 768) {
-  document.addEventListener('mousemove', (e) => {
-    const sparkles = document.querySelectorAll('.sparkle');
-    const x = (e.clientX / window.innerWidth - 0.5) * 20;
-    const y = (e.clientY / window.innerHeight - 0.5) * 20;
-    sparkles.forEach((s, i) => {
-      const f = (i + 1) * 0.35;
-      s.style.transform = `translate(${x*f}px, ${y*f}px)`;
-    });
+if(window.innerWidth>768){
+  document.addEventListener('mousemove',(e)=>{
+    const x=(e.clientX/window.innerWidth-.5)*18;
+    const y=(e.clientY/window.innerHeight-.5)*18;
+    document.querySelectorAll('.sugar').forEach((s,i)=>{const f=(i+1)*.28;s.style.transform=`translate(${x*f}px, ${y*f}px)`;});
   });
 }
 
-// Floating ambient sparkles (lightweight, CSS-driven)
-const SPARKLE_CHARS = ['✦','✧','·','˚','⋆'];
-const SPARKLE_COLORS = ['var(--pink)','var(--tiff)','var(--pink-d)','var(--brown-l)'];
-function createAmbientSparkle() {
-  const s = document.createElement('span');
-  s.className = 'sparkle-global';
-  s.textContent = SPARKLE_CHARS[Math.floor(Math.random() * SPARKLE_CHARS.length)];
-  s.style.color = SPARKLE_COLORS[Math.floor(Math.random() * SPARKLE_COLORS.length)];
-  s.style.left = Math.random() * 100 + 'vw';
-  s.style.top = (20 + Math.random() * 70) + 'vh';
-  s.style.animationDelay = Math.random() * 4 + 's';
-  s.style.animationDuration = (6 + Math.random() * 6) + 's';
-  s.style.fontSize = (0.6 + Math.random() * 0.8) + 'rem';
+const chars=['✦','✧','˚','⋆'];
+const colors=['var(--pink)','var(--tiff)','var(--pink-d)','var(--brown-l)'];
+function sprinkle(){
+  if(document.querySelectorAll('.ambient-sugar').length>10)return;
+  const s=document.createElement('span');
+  s.className='ambient-sugar';
+  s.textContent=chars[Math.floor(Math.random()*chars.length)];
+  s.style.cssText=`position:fixed;left:${Math.random()*100}vw;top:${20+Math.random()*75}vh;color:${colors[Math.floor(Math.random()*colors.length)]};font-size:${.55+Math.random()*.75}rem;pointer-events:none;z-index:1;opacity:0;animation:ambient ${6+Math.random()*6}s ease-in-out forwards;`;
   document.body.appendChild(s);
-  // Remove after animation to keep DOM clean
-  setTimeout(() => s.remove(), 14000);
+  setTimeout(()=>s.remove(),13000);
 }
-// Spawn one every 1.5s, max 8 at a time
-let sparkleCount = 0;
-const sparkleInterval = setInterval(() => {
-  if (document.querySelectorAll('.sparkle-global').length < 8) {
-    createAmbientSparkle();
-  }
-}, 1500);
+const style=document.createElement('style');
+style.textContent='@keyframes ambient{0%{opacity:0;transform:translateY(0) scale(.8)}20%{opacity:.55}80%{opacity:.25}100%{opacity:0;transform:translateY(-48px) scale(1.15)}}';
+document.head.appendChild(style);
+setInterval(sprinkle,1300);
