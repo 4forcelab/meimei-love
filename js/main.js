@@ -44,3 +44,26 @@ if (rebelBtn && rebelWrap) {
   }
   setTimeout(randomTwitch, 1800 + Math.random() * 2500);
 }
+
+// Mobile gacha-card interaction: tap card to pull it out, tap again to put it back.
+const cardBackdrop = document.createElement('div');
+cardBackdrop.className = 'card-backdrop';
+document.body.appendChild(cardBackdrop);
+let expandedCard = null;
+function closeExpandedCard(){
+  if(expandedCard){ expandedCard.classList.remove('is-expanded'); expandedCard = null; }
+  cardBackdrop.classList.remove('show');
+}
+document.querySelectorAll('.store-card').forEach(card=>{
+  card.addEventListener('click',(e)=>{
+    if(e.target.closest('a')) return;
+    if(window.innerWidth > 600) return;
+    if(card.classList.contains('is-expanded')){ closeExpandedCard(); return; }
+    closeExpandedCard();
+    expandedCard = card;
+    card.classList.add('is-expanded');
+    cardBackdrop.classList.add('show');
+  });
+});
+cardBackdrop.addEventListener('click', closeExpandedCard);
+window.addEventListener('resize',()=>{ if(window.innerWidth>600) closeExpandedCard(); });
