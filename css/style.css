@@ -386,3 +386,35 @@
   .ritual-card p{font-size:.68rem!important;}
   .social .sticker-noodle{width:68px!important;top:86px!important;right:4px!important;}
 }
+
+
+/* === v3.8 sticker remap + 迷糊字跌倒 === */
+.blurry-char{
+  display:inline-block;
+  transform:rotate(38deg) translateY(.06em) translateX(.02em);
+  filter:blur(1.35px);
+  opacity:.82;
+  transform-origin:55% 68%;
+  animation:meimeiBlurFall 3.6s ease-in-out infinite;
+}
+@keyframes meimeiBlurFall{
+  0%,100%{transform:rotate(38deg) translateY(.06em) translateX(.02em);filter:blur(1.35px);}
+  48%{transform:rotate(45deg) translateY(.11em) translateX(.04em);filter:blur(1.8px);}
+  54%{transform:rotate(35deg) translateY(.04em) translateX(-.01em);filter:blur(1.15px);}
+}
+@media(max-width:768px){
+  .blurry-char{filter:blur(1.1px);}
+  .social .sticker-noodle{
+    display:block!important;
+    width:76px!important;
+    top:70px!important;
+    right:10px!important;
+    left:auto!important;
+    bottom:auto!important;
+    z-index:3!important;
+    opacity:.96;
+  }
+}
+@media(max-width:390px){
+  .social .sticker-noodle{width:62px!important;top:80px!important;right:4px!important;}
+}
