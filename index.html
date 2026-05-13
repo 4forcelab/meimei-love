@@ -29,6 +29,26 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Kaisei+Opti:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+
+<style>
+/* 鍋美美新貼圖掛載：只改 index 就能看到，圖片放 images/ 根目錄 */
+.meimei-sticker{position:absolute;z-index:6;pointer-events:none;filter:drop-shadow(0 14px 26px rgba(123,91,58,.22));animation:stickerFloat 4.8s ease-in-out infinite;transform-origin:center;}
+.meimei-sticker img{display:block;width:100%;height:auto;border-radius:22px;}
+.sticker-star{width:126px;right:4vw;bottom:7vh;transform:rotate(6deg);}
+.sticker-surprise{width:112px;left:3vw;top:10%;animation-delay:.5s;}
+.sticker-cozy{width:155px;right:5vw;bottom:7%;animation-delay:.9s;}
+.sticker-noodle{width:145px;left:6vw;bottom:12%;animation-delay:1.1s;}
+.sticker-dog{width:108px;right:8vw;top:8%;animation-delay:.4s;}
+.sticker-money{width:170px;right:-20px;top:-42px;transform:rotate(9deg);animation:stickerFloat 4.2s ease-in-out infinite, stickerWiggle 3.2s steps(2,end) infinite;}
+.sticker-silly{width:96px;left:4vw;top:42%;opacity:.92;animation-delay:1.4s;}
+.sticker-jojo{width:92px;right:22px;bottom:18px;opacity:0;transform:scale(.85) rotate(-8deg);transition:.25s ease;}
+.nav-logo:hover ~ .sticker-jojo, body.logo-awaken .sticker-jojo{opacity:1;transform:scale(1) rotate(-3deg);}
+.hero,.order,.mood,.ritual,.social,.franchise,footer{position:relative;overflow:hidden;}
+@keyframes stickerFloat{0%,100%{translate:0 0}50%{translate:0 -10px}}
+@keyframes stickerWiggle{0%,92%,100%{rotate:0deg}94%{rotate:2deg}96%{rotate:-2deg}98%{rotate:1deg}}
+@media(max-width:768px){.sticker-star{width:92px;right:2vw;bottom:14vh}.sticker-surprise{width:82px;top:2%;left:1vw}.sticker-cozy{width:108px;right:-6px;bottom:2%}.sticker-noodle{width:96px;left:-8px;bottom:2%}.sticker-dog{width:82px;right:2vw;top:2%}.sticker-money{width:112px;right:-18px;top:-24px}.sticker-silly{display:none}.sticker-jojo{width:70px}}
+</style>
+
 </head>
 <body>
 <nav class="nav">
@@ -61,6 +81,7 @@
     <div class="cream-orbit"></div>
     <img src="images/og-image.jpeg" alt="火鍋，可以很鏘。鍋美美食豔室">
   </div>
+  <span class="meimei-sticker sticker-star"><img src="images/meimei-sticker-05.png" alt="鍋美美星星眼"></span>
   <span class="sugar s1">✦</span><span class="sugar s2">✧</span><span class="sugar s3">⋆</span><span class="sugar s4">✦</span>
 </section>
 
@@ -71,6 +92,7 @@
     <p>選最近的店。回家、追劇、耍廢，鍋美美處理。</p>
   </div>
   <div class="order-stage">
+    <span class="meimei-sticker sticker-surprise"><img src="images/meimei-sticker-02.png" alt="鍋美美驚訝"></span>
     <div class="order-girl reveal"><img src="images/order-look.png" alt="鍋美美等你點餐"></div>
     <div class="store-grid">
       <article class="store-card reveal active rarity-ssr">
@@ -124,6 +146,7 @@
 
 <section id="mood" class="mood melt-bg-2">
   <div class="mood-art reveal"><img src="images/social.png" alt="鍋美美躺沙發"></div>
+  <span class="meimei-sticker sticker-cozy"><img src="images/meimei-sticker-06.png" alt="鍋美美抱鍋哭哭"></span>
   <div class="mood-copy reveal">
     <p class="eyebrow">WHO IS MEI-MEI?</p>
     <h2>有點迷糊，<br><span>但煮火鍋很認真。</span></h2>
@@ -133,6 +156,7 @@
 </section>
 
 <section class="ritual section-pink">
+  <span class="meimei-sticker sticker-silly"><img src="images/meimei-sticker-07.png" alt="鍋美美鬼臉"></span>
   <div class="section-head reveal">
     <p class="eyebrow">DELIVERY RITUAL</p>
     <h2>我們把儀式感，<br>裝進外送袋裡。</h2>
@@ -148,6 +172,8 @@
 
 
 <section id="social" class="social section-white">
+  <span class="meimei-sticker sticker-noodle"><img src="images/meimei-sticker-01.png" alt="鍋美美吃麵"></span>
+  <span class="meimei-sticker sticker-dog"><img src="images/meimei-sticker-03.png" alt="鍋美美狗狗帽"></span>
   <div class="section-head reveal">
     <p class="eyebrow">FOLLOW US</p>
     <p class="editorial-note">Tonight’s Mood：Hotpot & Doing Nothing</p>
@@ -164,6 +190,7 @@
 
 <section id="franchise" class="franchise section-brown">
   <div class="franchise-card reveal">
+    <span class="meimei-sticker sticker-money"><img src="images/meimei-sticker-04.png" alt="鍋美美灑肉片"></span>
     <img src="images/franchise-serious.jpeg" alt="鍋美美加盟">
     <div>
       <p class="eyebrow">JOIN THE HOTPOT CLUB</p>
@@ -182,6 +209,7 @@
   <span>品牌母公司：萬合天宜有限公司 · 4force lab</span>
   <span class="footer-editorial">Not luxury. Just very serious about hotpot.</span>
   <small>© 2026 鍋美美食豔室 All Rights Reserved</small>
+  <span class="meimei-sticker sticker-jojo"><img src="images/meimei-sticker-08.png" alt="鍋美美覺醒彩蛋"></span>
 </footer>
 <script src="js/main.js"></script>
 </body>
