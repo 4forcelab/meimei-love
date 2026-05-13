@@ -199,27 +199,36 @@
 </section>
 
 
-<!--
-╔══════════════════════════════════════════════════════════════╗
-║                                                              ║
-║   喂喂，這裡是煮火鍋的地方。                                  ║
-║   你進來 DevTools 幹嘛？                                      ║
-║                                                              ║
-║   點餐在前面 👉 https://love.4force.com.tw/#order             ║
-║                                                              ║
-║   ——還是說，你想加盟？                                        ║
-║   加盟專線：0900-489-893                                      ║
-║   或洽母公司：https://www.4force.com.tw                       ║
-║                                                              ║
-║   我們很鏘，但我們也很需要你。                                ║
-║                                                              ║
-║   4force lab × 鍋美美食豔室                                   ║
-║   info@4force.com.tw                                          ║
-║                                                              ║
-║   P.S. 連點左上 LOGO 7 下，鍋美美會覺醒。                     ║
-║                                                              ║
-╚══════════════════════════════════════════════════════════════╝
--->
+<!-- 4F CLAIM VERIFIED -->
+<section class="claim-verified" id="claim-verified">
+  <div class="claim-card reveal" onclick="openClaimModal()" role="button" tabindex="0" aria-label="查看 4F Claim-Verified 驗證內容">
+    <div class="claim-badge">✓ 4F Claim-Verified</div>
+    <h3>鍋美美真的有被驗，<br>不是自己在那邊講。</h3>
+    <p>不是評高低，是驗你說到做到。</p>
+    <div class="claim-tags">
+      <span>Insight</span>
+      <span>Creativity</span>
+      <span>Execution</span>
+    </div>
+  </div>
+</section>
+
+<div class="claim-modal" id="claimModal" aria-hidden="true">
+  <div class="claim-modal-box" role="dialog" aria-modal="true" aria-label="4F Claim-Verified 驗證內容">
+    <button class="claim-close" onclick="closeClaimModal()" aria-label="關閉">×</button>
+    <div class="claim-mini">4force lab Claim-Verified</div>
+    <h2>不是評高低，<br>是驗你說到做到。</h2>
+    <p class="claim-copy">鍋美美食豔室為 4F Claim-Verified 示範驗證案例。</p>
+    <div class="claim-list">
+      <div class="claim-item">✓ 100% 採用品牌雞蛋</div>
+      <div class="claim-item">✓ 100% 開立發票</div>
+      <div class="claim-item">✓ 供應來源可追溯</div>
+      <div class="claim-item">✓ 外送三分離體驗符合品牌主張</div>
+    </div>
+    <div class="claim-footer">驗證單位：萬合天宜有限公司｜4force lab</div>
+    <a class="claim-link" href="https://www.4force.com.tw" target="_blank" rel="noopener">查看 Claim-Verified 計畫 →</a>
+  </div>
+</div>
 
 <footer>
   <strong>鍋美美食豔室</strong>
@@ -229,20 +238,6 @@
   <small>© 2026 鍋美美食豔室 All Rights Reserved</small>
   <span class="meimei-sticker sticker-jojo"><img src="images/meimei-sticker-05.png" alt="鍋美美覺醒彩蛋"></span>
 </footer>
-
-<script>
-/* Console Easter Egg · 鍋美美 DevTools 彩蛋 */
-(() => {
-  const titleStyle = 'font-size:20px;font-weight:900;color:#E07899;background:#FFF5F0;padding:6px 10px;border-radius:10px;';
-  const bodyStyle = 'font-size:13px;line-height:1.8;color:#7B5B3A;';
-  const warnStyle = 'font-size:13px;font-weight:700;color:#A8D8D0;background:#3D2314;padding:4px 8px;border-radius:8px;';
-
-  console.log('%c鍋美美食豔室｜DevTools 彩蛋', titleStyle);
-  console.log('%c喂喂，這裡是煮火鍋的地方。\n你進來 Console 幹嘛？\n\n點餐在前面 👉 https://love.4force.com.tw/#order\n\n——還是說，你想加盟？\n加盟專線：0900-489-893\n母公司：https://www.4force.com.tw\n\n我們很鏘，但我們也很需要你。', bodyStyle);
-  console.log('%c偷偷說：連點左上 LOGO 7 下，鍋美美會覺醒。', warnStyle);
-})();
-</script>
-
 <script src="js/main.js"></script>
 </body>
 </html>
