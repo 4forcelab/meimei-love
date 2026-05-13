@@ -327,3 +327,62 @@
   .gacha-modal .store-card{min-height:430px!important;padding:1.7rem!important;}
   .mobile-order{z-index:70;} /* modal stays over it */
 }
+
+/* === v3.7 mobile refinement: ritual 2x2 boutique grid + social sticker avoids LINE === */
+@media(max-width:600px){
+  /* 儀式感卡片改田字型：小卡、精品、不要像公告欄 */
+  .ritual{padding:4rem 1rem 4.6rem!important;}
+  .ritual .section-head{margin-bottom:1.7rem!important;}
+  .ritual .section-head h2{font-size:2.15rem!important;line-height:1.18!important;}
+  .ritual .editorial-note{font-size:.62rem!important;letter-spacing:.18em!important;margin-top:.65rem!important;}
+  .ritual-grid{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:.72rem!important;
+    max-width:100%!important;
+    padding:0 .05rem!important;
+  }
+  .ritual-card{
+    min-height:170px!important;
+    padding:1rem .9rem!important;
+    border-radius:22px!important;
+    box-shadow:0 12px 34px rgba(224,120,153,.10)!important;
+    backdrop-filter:blur(13px)!important;
+  }
+  .ritual-card span{font-size:1.95rem!important;}
+  .ritual-card h3{font-size:.84rem!important;line-height:1.55!important;margin:.55rem 0 .38rem!important;}
+  .ritual-card p{font-size:.72rem!important;line-height:1.75!important;}
+  .ritual-card.bag:after{font-size:.48rem!important;letter-spacing:.14em!important;margin-top:.55rem!important;}
+  .ritual-card.handmade{transform:rotate(-.8deg)!important;}
+  .ritual-card.bag{transform:rotate(.6deg)!important;}
+  .ritual-card.safezone{transform:rotate(-.4deg)!important;}
+
+  /* 社群區手機版：吃麵貼圖保留，但不要壓到 LINE 卡 */
+  .social{padding:4.8rem 1.2rem 5.2rem!important;}
+  .social .section-head{position:relative;z-index:2;margin-bottom:1.55rem!important;}
+  .social .section-head h2{font-size:2.08rem!important;line-height:1.22!important;}
+  .social .sticker-noodle{
+    display:block!important;
+    width:76px!important;
+    left:auto!important;
+    right:10px!important;
+    top:78px!important;
+    bottom:auto!important;
+    opacity:.92!important;
+    z-index:1!important;
+    transform:rotate(5deg)!important;
+    pointer-events:none!important;
+  }
+  .app-grid{position:relative;z-index:3;gap:.8rem!important;}
+  .app-grid a{min-height:104px!important;border-radius:24px!important;padding:1rem 1.05rem!important;}
+  .app-grid a strong{font-size:.95rem!important;}
+  .app-grid a span{font-size:.74rem!important;line-height:1.55!important;}
+}
+
+@media(max-width:390px){
+  .ritual-card{min-height:158px!important;padding:.9rem .78rem!important;}
+  .ritual-card span{font-size:1.72rem!important;}
+  .ritual-card h3{font-size:.78rem!important;}
+  .ritual-card p{font-size:.68rem!important;}
+  .social .sticker-noodle{width:68px!important;top:86px!important;right:4px!important;}
+}
