@@ -418,3 +418,37 @@
 @media(max-width:390px){
   .social .sticker-noodle{width:62px!important;top:80px!important;right:4px!important;}
 }
+
+
+/* === v3.9 sticker inventory cleanup + footer link fix ===
+   Used visibly:
+   04 eat-noodle -> social happiness layer
+   08 money-meat -> franchise chaos layer (desktop only)
+   05 jojo-hotpot -> hidden logo-click easter egg
+   Others stay in /images for future seasons, not mounted on page.
+*/
+footer .footer-link{color:var(--pink-s);text-decoration:underline;text-underline-offset:4px;font-weight:800;}
+footer .footer-link:hover{opacity:.72;}
+
+/* Reset all sticker noise first */
+.meimei-sticker{display:none!important;position:absolute;pointer-events:none;filter:drop-shadow(0 14px 26px rgba(123,91,58,.22));}
+.meimei-sticker img{display:block;width:100%;height:auto;border-radius:22px;}
+
+/* Social: only the eating sticker is allowed to show */
+.social .sticker-noodle{display:block!important;width:138px!important;left:7vw!important;bottom:4.6rem!important;right:auto!important;top:auto!important;z-index:3!important;opacity:.96!important;transform:rotate(-3deg)!important;animation:stickerFloat 5.1s ease-in-out infinite;}
+
+/* Franchise: money gun is a desktop chaos stamp, never on mobile */
+.franchise .sticker-money{display:block!important;width:150px!important;right:-26px!important;top:-38px!important;left:auto!important;bottom:auto!important;z-index:4!important;opacity:.95!important;transform:rotate(7deg)!important;animation:stickerFloat 4.3s ease-in-out infinite;}
+
+/* Jojo: hidden until logo easter egg */
+body.jojo-mode .sticker-jojo{display:block!important;position:fixed!important;width:min(210px,42vw)!important;right:18px!important;bottom:18px!important;z-index:9999!important;opacity:1!important;animation:jojoAwaken .72s cubic-bezier(.2,1.45,.25,1) both, stickerFloat 3.5s ease-in-out infinite .8s;}
+@keyframes jojoAwaken{0%{transform:scale(.2) rotate(-18deg);filter:blur(8px);opacity:0}55%{transform:scale(1.18) rotate(4deg);filter:blur(0);opacity:1}100%{transform:scale(1) rotate(-2deg)}}
+
+@media(max-width:768px){
+  /* keep mobile clean: only noodle appears, placed high and away from LINE grid */
+  .social .sticker-noodle{display:block!important;width:72px!important;right:14px!important;top:1.2rem!important;left:auto!important;bottom:auto!important;z-index:2!important;opacity:.96!important;transform:rotate(6deg)!important;}
+  .franchise .sticker-money{display:none!important;}
+}
+@media(max-width:390px){
+  .social .sticker-noodle{width:62px!important;right:8px!important;top:1rem!important;}
+}
