@@ -24,3 +24,23 @@ const style=document.createElement('style');
 style.textContent='@keyframes ambient{0%{opacity:0;transform:translateY(0) scale(.8)}20%{opacity:.55}80%{opacity:.25}100%{opacity:0;transform:translateY(-48px) scale(1.15)}}';
 document.head.appendChild(style);
 setInterval(sprinkle,1300);
+
+// Franchise CTA: mobile-friendly self-switching button with occasional twitch
+const rebelBtn = document.querySelector('.auto-rebel span');
+const rebelWrap = document.querySelector('.auto-rebel');
+if (rebelBtn && rebelWrap) {
+  const rebelLines = ['看看合作', '不服來談', '一起煮火鍋？', '鍋美美缺分身', '你也想起舞嗎？'];
+  let rebelIndex = 0;
+  setInterval(() => {
+    rebelIndex = (rebelIndex + 1) % rebelLines.length;
+    rebelBtn.textContent = rebelLines[rebelIndex];
+    rebelWrap.classList.add('is-twitching');
+    setTimeout(() => rebelWrap.classList.remove('is-twitching'), 320);
+  }, 1500);
+  function randomTwitch(){
+    rebelWrap.classList.add('is-twitching');
+    setTimeout(() => rebelWrap.classList.remove('is-twitching'), 320);
+    setTimeout(randomTwitch, 2400 + Math.random() * 5200);
+  }
+  setTimeout(randomTwitch, 1800 + Math.random() * 2500);
+}
