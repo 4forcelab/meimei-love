@@ -95,7 +95,6 @@ function openGacha(card) {
 document.querySelectorAll('.store-card').forEach(card => {
   card.addEventListener('click', (e) => {
     if (e.target.closest('a')) return;
-    if (window.innerWidth > 600) return;
     e.preventDefault();
     if (gachaModal.classList.contains('show')) closeGacha();
     else openGacha(card);
@@ -105,7 +104,7 @@ gachaBackdrop.addEventListener('click', closeGacha);
 gachaModal.addEventListener('click', (e) => {
   if (!e.target.closest('a')) closeGacha();
 });
-window.addEventListener('resize', () => { if (window.innerWidth > 600) closeGacha(); });
+
 
 // Hidden JoJo-ish logo easter egg: click logo 7 times
 let logoClicks = 0;
@@ -138,3 +137,35 @@ if (logo) {
     }
   });
 })();
+
+
+// 4F Claim-Verified modal
+function openClaimModal(){
+  const modal = document.getElementById('claimModal');
+  if (!modal) return;
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden','false');
+}
+function closeClaimModal(){
+  const modal = document.getElementById('claimModal');
+  if (!modal) return;
+  modal.classList.remove('active');
+  modal.setAttribute('aria-hidden','true');
+}
+window.openClaimModal = openClaimModal;
+window.closeClaimModal = closeClaimModal;
+window.addEventListener('click', (e) => {
+  const modal = document.getElementById('claimModal');
+  if (modal && e.target === modal) closeClaimModal();
+});
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeClaimModal();
+});
+document.querySelectorAll('.claim-card').forEach(card => {
+  card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openClaimModal();
+    }
+  });
+});
