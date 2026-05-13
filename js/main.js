@@ -119,3 +119,22 @@ if (logo) {
     }
   });
 }
+
+
+// v3.9: logo easter egg for JOJO / 覺醒鍋美美
+(() => {
+  const logo = document.querySelector('.nav-logo');
+  if (!logo) return;
+  let taps = 0;
+  let timer = null;
+  logo.addEventListener('click', (e) => {
+    taps += 1;
+    clearTimeout(timer);
+    timer = setTimeout(() => { taps = 0; }, 1400);
+    if (taps >= 7) {
+      e.preventDefault();
+      document.body.classList.toggle('jojo-mode');
+      taps = 0;
+    }
+  });
+})();
