@@ -66,3 +66,140 @@
 @keyframes kyoka{0%,100%{transform:translateY(0) scale(1) skewX(0deg);opacity:.72}50%{transform:translateY(-8px) scale(1.025) skewX(-2deg);opacity:.95}}
 @keyframes btnTwitch{0%,100%{transform:translate(0,0) rotate(0)}20%{transform:translate(-2px,1px) rotate(-1deg)}40%{transform:translate(2px,-1px) rotate(1deg)}60%{transform:translate(-1px,-2px) rotate(-.5deg)}80%{transform:translate(1px,1px) rotate(.8deg)}}
 @media(max-width:600px){.order::after{white-space:normal;width:82%;text-align:center;bottom:3%;}.auto-rebel span{min-width:4.8em}}
+
+/* === v3.2 order card magic === */
+.order{position:relative;isolation:isolate;}
+.order::before{
+  content:"你什麼時候產生了我沒有使用鏡花水月的錯覺。  你什麼時候產生了我沒有使用鏡花水月的錯覺。";
+  position:absolute;
+  left:-8vw;right:-8vw;top:9%;
+  z-index:0;
+  font-family:var(--round);
+  font-weight:900;
+  font-size:clamp(2.2rem,6.6vw,7rem);
+  line-height:1.3;
+  letter-spacing:.18em;
+  color:rgba(224,120,153,.055);
+  white-space:normal;
+  text-align:center;
+  transform:rotate(-4deg);
+  pointer-events:none;
+  animation:kyokaOrbit 12s ease-in-out infinite;
+}
+.order .section-head,.order .order-stage{position:relative;z-index:2;}
+.card-shine{
+  position:absolute;inset:0;z-index:1;pointer-events:none;border-radius:inherit;overflow:hidden;
+}
+.card-shine::before{
+  content:"";position:absolute;inset:-55%;
+  background:linear-gradient(115deg,transparent 34%,rgba(255,255,255,.45) 45%,rgba(255,255,255,.08) 52%,transparent 64%);
+  transform:translateX(-55%) rotate(8deg);
+  animation:cardRay 3.8s linear infinite;
+  mix-blend-mode:screen;
+}
+.rarity-ssr{box-shadow:0 24px 70px rgba(224,120,153,.18),0 0 0 1px rgba(244,210,123,.22),0 0 28px rgba(244,210,123,.18)}
+.rarity-ssr .card-shine::before{background:linear-gradient(115deg,transparent 34%,rgba(255,242,188,.70) 44%,rgba(255,255,255,.26) 52%,transparent 66%);animation-duration:3.2s;}
+.rarity-sr{box-shadow:0 18px 50px rgba(61,35,20,.07),0 0 24px rgba(168,216,208,.22)}
+.rarity-sr .card-shine::before{background:linear-gradient(115deg,transparent 34%,rgba(214,239,236,.78) 44%,rgba(255,255,255,.2) 53%,transparent 66%);animation-duration:4.4s;}
+.rarity-r .card-shine::before{background:linear-gradient(115deg,transparent 35%,rgba(242,167,190,.38) 45%,rgba(255,255,255,.16) 52%,transparent 64%);animation-duration:5.1s;}
+.rarity-new{box-shadow:0 18px 50px rgba(61,35,20,.07),0 0 22px rgba(168,216,208,.18)}
+.rarity-new .card-shine::before{background:linear-gradient(115deg,transparent 35%,rgba(255,250,248,.55) 45%,rgba(168,216,208,.22) 52%,transparent 65%);animation-duration:4.7s;}
+.store-card > *:not(.card-shine){position:relative;z-index:2;}
+.card-backdrop{position:fixed;inset:0;background:rgba(61,35,20,.18);backdrop-filter:blur(8px);z-index:800;opacity:0;pointer-events:none;transition:opacity .18s ease;}
+.card-backdrop.show{opacity:1;pointer-events:auto;}
+.store-card.is-expanded{
+  position:fixed!important;left:50%!important;top:50%!important;z-index:900!important;
+  width:min(82vw,380px)!important;min-height:480px!important;
+  transform:translate(-50%,-50%) rotate(0deg) scale(1)!important;
+  opacity:1!important;
+  box-shadow:0 35px 120px rgba(224,120,153,.35),0 0 55px rgba(255,250,248,.8)!important;
+  animation:gachaPop .38s cubic-bezier(.2,1.25,.3,1), cardBreath 3.4s ease-in-out infinite!important;
+}
+.store-card.is-expanded::before{background:radial-gradient(ellipse at 30% 12%,rgba(255,255,255,.9),transparent 36%),radial-gradient(ellipse at 100% 0%,rgba(168,216,208,.42),transparent 50%)}
+.store-card.is-expanded .card-shine::before{animation-duration:1.6s;}
+.store-card.is-expanded .store-top strong{font-size:1.65rem;}
+.store-card.is-expanded p{font-size:1rem;}
+@keyframes cardRay{0%{transform:translateX(-65%) rotate(8deg)}100%{transform:translateX(65%) rotate(8deg)}}
+@keyframes kyokaOrbit{0%,100%{transform:translateY(0) rotate(-4deg) scale(1);opacity:.75}50%{transform:translateY(18px) rotate(2deg) scale(1.03);opacity:1}}
+@keyframes gachaPop{0%{transform:translate(-50%,-46%) scale(.7) rotate(-8deg);filter:brightness(1.4);opacity:.2}70%{transform:translate(-50%,-50%) scale(1.04) rotate(2deg);filter:brightness(1.18);opacity:1}100%{transform:translate(-50%,-50%) scale(1) rotate(0);filter:brightness(1)}}
+@media(max-width:600px){
+  .order::before{display:none;}
+  .store-card{cursor:pointer;}
+  .store-card:not(.is-expanded){transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;}
+}
+@media(min-width:601px){.card-backdrop{display:none}.store-card.is-expanded{position:relative!important;left:auto!important;top:auto!important;width:auto!important;min-height:250px!important;transform:none!important;z-index:auto!important}}
+
+
+/* === v3.3 editorial ghost system + Mei-Mei monogram ritual === */
+.editorial-note {
+  font-family: var(--round);
+  font-weight: 900;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(224,120,153,.72) !important;
+  font-size: .7rem !important;
+  margin: -.2rem 0 1.2rem !important;
+}
+.social .editorial-note {
+  color: rgba(123,91,58,.45) !important;
+  margin-bottom: .8rem !important;
+}
+.footer-editorial {
+  font-family: var(--round);
+  letter-spacing: .08em;
+  color: rgba(255,221,232,.58) !important;
+  margin-top: .25rem;
+}
+.ritual {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse at 18% 20%, rgba(255,250,248,.5), transparent 38%),
+    radial-gradient(ellipse at 85% 28%, rgba(255,250,248,.42), transparent 35%),
+    linear-gradient(180deg, rgba(253,221,232,1), rgba(253,221,232,.86));
+}
+.ritual::before {
+  content: "";
+  position: absolute;
+  inset: -7rem -5vw;
+  z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22260%22%20height%3D%22260%22%20viewBox%3D%220%200%20260%20260%22%3E%0A%20%20%3Crect%20width%3D%22260%22%20height%3D%22260%22%20fill%3D%22none%22/%3E%0A%20%20%3Cg%20fill%3D%22%2523E07899%22%20opacity%3D%220.38%22%20font-family%3D%22Georgia%2C%20serif%22%20text-anchor%3D%22middle%22%3E%0A%20%20%20%20%3Ctext%20x%3D%2252%22%20y%3D%2262%22%20font-size%3D%2226%22%20font-weight%3D%22700%22%3EMM%3C/text%3E%0A%20%20%20%20%3Ctext%20x%3D%22190%22%20y%3D%2268%22%20font-size%3D%2224%22%3E%E2%9C%A6%3C/text%3E%0A%20%20%20%20%3Ctext%20x%3D%22130%22%20y%3D%22138%22%20font-size%3D%2234%22%3E%E2%99%A8%3C/text%3E%0A%20%20%20%20%3Ctext%20x%3D%2255%22%20y%3D%22205%22%20font-size%3D%2230%22%3E%E2%99%A1%3C/text%3E%0A%20%20%20%20%3Ctext%20x%3D%22205%22%20y%3D%22205%22%20font-size%3D%2230%22%3E%E2%9A%A1%3C/text%3E%0A%20%20%3C/g%3E%0A%20%20%3Cg%20fill%3D%22none%22%20stroke%3D%22%2523E07899%22%20stroke-width%3D%222%22%20opacity%3D%220.28%22%3E%0A%20%20%20%20%3Cpath%20d%3D%22M43%20126c16-18%2036-18%2052%200c-16%2018-36%2018-52%200z%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M165%20126c16-18%2036-18%2052%200c-16%2018-36%2018-52%200z%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M130%2034c11%2018%2011%2035%200%2052c-11-17-11-34%200-52z%22/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M130%20174c11%2018%2011%2035%200%2052c-11-17-11-34%200-52z%22/%3E%0A%20%20%3C/g%3E%0A%3C/svg%3E"), linear-gradient(45deg, rgba(255,250,248,.18) 25%, transparent 25%, transparent 50%, rgba(255,250,248,.16) 50%, rgba(255,250,248,.16) 75%, transparent 75%);
+  background-size: 230px 230px, 180px 180px;
+  background-position: 0 0, 0 0;
+  opacity: .42;
+  transform: rotate(-7deg) scale(1.08);
+  filter: blur(.1px);
+  animation: monogramDrift 18s linear infinite;
+  pointer-events: none;
+}
+.ritual::after {
+  content: "DIOR? CHANEL? NO, HOTPOT.";
+  position: absolute;
+  right: 8vw;
+  top: 22%;
+  z-index: 0;
+  font-family: var(--round);
+  font-weight: 900;
+  letter-spacing: .18em;
+  font-size: clamp(.65rem, 1.2vw, .95rem);
+  color: rgba(123,91,58,.16);
+  transform: rotate(-6deg);
+  pointer-events: none;
+}
+.ritual .section-head,
+.ritual .ritual-grid { position: relative; z-index: 2; }
+.ritual-card {
+  backdrop-filter: blur(16px);
+  border-color: rgba(255,250,248,.78);
+}
+@keyframes monogramDrift {
+  0% { background-position: 0 0, 0 0; transform: rotate(-7deg) scale(1.08); }
+  50% { transform: rotate(-5deg) scale(1.11); }
+  100% { background-position: 230px 230px, 180px 180px; transform: rotate(-7deg) scale(1.08); }
+}
+@media(max-width:600px){
+  .ritual::before{opacity:.26;background-size:180px 180px,130px 130px;}
+  .ritual::after{display:none;}
+  .editorial-note{letter-spacing:.16em;}
+}
