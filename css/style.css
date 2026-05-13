@@ -105,7 +105,7 @@
 .rarity-new{box-shadow:0 18px 50px rgba(61,35,20,.07),0 0 22px rgba(168,216,208,.18)}
 .rarity-new .card-shine::before{background:linear-gradient(115deg,transparent 35%,rgba(255,250,248,.55) 45%,rgba(168,216,208,.22) 52%,transparent 65%);animation-duration:4.7s;}
 .store-card > *:not(.card-shine){position:relative;z-index:2;}
-.card-backdrop{position:fixed;inset:0;background:rgba(61,35,20,.16);z-index:800;opacity:0;pointer-events:none;transition:opacity .18s ease;}
+.card-backdrop{position:fixed;inset:0;background:rgba(61,35,20,.18);backdrop-filter:blur(8px);z-index:800;opacity:0;pointer-events:none;transition:opacity .18s ease;}
 .card-backdrop.show{opacity:1;pointer-events:auto;}
 .store-card.is-expanded{
   position:fixed!important;left:50%!important;top:50%!important;z-index:900!important;
@@ -176,11 +176,6 @@
 .ritual::after {
   content: "DIOR? CHANEL? NO, HOTPOT.";
   position: absolute;
-  left: auto;
-  bottom: auto;
-  height: auto;
-  border-radius: 0;
-  background: transparent;
   right: 8vw;
   top: 22%;
   z-index: 0;
@@ -209,37 +204,54 @@
   .editorial-note{letter-spacing:.16em;}
 }
 
-
-/* === v3.4 fixes: ritual stripe cleanup + clear mobile gacha modal + stronger card rays === */
-.store-card .card-shine{opacity:.92;}
-.store-card .card-shine::before{filter:drop-shadow(0 0 10px rgba(255,255,255,.55));}
-.rarity-ssr .card-shine::before{background:linear-gradient(115deg,transparent 30%,rgba(255,216,92,.15) 38%,rgba(255,242,188,.95) 45%,rgba(255,255,255,.45) 52%,transparent 66%);}
-.rarity-sr .card-shine::before{background:linear-gradient(115deg,transparent 31%,rgba(168,216,208,.18) 38%,rgba(214,239,236,.95) 45%,rgba(255,255,255,.34) 53%,transparent 66%);}
-.rarity-r .card-shine::before{background:linear-gradient(115deg,transparent 32%,rgba(242,167,190,.16) 39%,rgba(242,167,190,.62) 46%,rgba(255,255,255,.22) 54%,transparent 66%);}
-.rarity-new .card-shine::before{background:linear-gradient(115deg,transparent 32%,rgba(255,250,248,.18) 39%,rgba(255,250,248,.8) 46%,rgba(168,216,208,.3) 54%,transparent 67%);}
-.gacha-card-modal{
-  position:fixed!important;left:50%!important;top:50%!important;z-index:901!important;
-  width:min(84vw,390px)!important;min-height:510px!important;
-  transform:translate(-50%,-50%) rotate(0deg) scale(1)!important;
-  opacity:1!important;cursor:pointer;
-  background:linear-gradient(145deg,rgba(255,250,248,.95),rgba(255,245,240,.88))!important;
-  border:2px solid rgba(242,167,190,.55)!important;
-  border-radius:32px!important;
-  padding:1.65rem!important;
-  box-shadow:0 35px 120px rgba(224,120,153,.38),0 0 70px rgba(255,250,248,.92),0 0 0 1px rgba(255,255,255,.58) inset!important;
-  animation:gachaPop .38s cubic-bezier(.2,1.25,.3,1), cardBreath 3.4s ease-in-out infinite!important;
-  overflow:hidden;
+/* === v3.5 hotfix: ritual blue smear + mobile gacha clarity === */
+/* Reset the old Tiffany block properties from earlier .ritual:after rule. */
+.ritual::after{
+  left:auto!important;
+  bottom:auto!important;
+  height:auto!important;
+  background:transparent!important;
+  border-radius:0!important;
+  filter:none!important;
 }
-.gacha-card-modal .card-shine::before{animation-duration:1.45s!important;}
-.gacha-card-modal .store-top strong{font-size:1.65rem;}
-.gacha-card-modal p{font-size:1rem;line-height:1.8;}
-.gacha-card-modal .store-links a{padding:.62rem .95rem;font-size:.82rem;}
-.gacha-card-modal .card-rarity{transform:scale(1.12);}
+/* Replace broken strip with a soft cream-smear layer that sits behind content. */
+.ritual .section-head::before{
+  content:"";
+  position:absolute;
+  width:128%;
+  height:230px;
+  left:-14%;
+  top:35%;
+  z-index:-1;
+  background:linear-gradient(90deg,rgba(214,239,236,.46),rgba(255,250,248,.34),rgba(214,239,236,.42));
+  border-radius:45% 55% 48% 52% / 54% 44% 56% 46%;
+  transform:rotate(-4deg);
+  filter:blur(14px);
+  opacity:.72;
+  pointer-events:none;
+}
+.ritual .section-head{position:relative;}
+/* Mobile gacha: no full-page blur. Keep context visible, make pulled card clear. */
+.card-backdrop{
+  background:rgba(255,245,240,.20)!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+.store-card.is-expanded{
+  filter:none!important;
+  backdrop-filter:blur(14px)!important;
+  -webkit-backdrop-filter:blur(14px)!important;
+}
 @media(max-width:600px){
-  .card-backdrop.show{background:rgba(61,35,20,.22);}
-  .card-backdrop.show::before{
-    content:"";position:absolute;inset:0;
-    background:radial-gradient(ellipse at 50% 42%,rgba(255,250,248,.28),transparent 38%),radial-gradient(ellipse at 50% 58%,rgba(242,167,190,.18),transparent 55%);
-    pointer-events:none;
+  .card-backdrop.show{opacity:1!important;}
+  .store-card.is-expanded{
+    width:min(86vw,390px)!important;
+    min-height:440px!important;
+    padding:1.7rem!important;
+    background:linear-gradient(145deg,rgba(255,250,248,.94),rgba(255,245,240,.90))!important;
+    border-color:rgba(242,167,190,.8)!important;
   }
+  .store-card.is-expanded .store-links a{font-size:.85rem;padding:.55rem .9rem;}
+  .store-card.is-expanded .coming{font-size:.82rem;white-space:normal;}
+  .ritual .section-head::before{height:150px;top:40%;opacity:.48;filter:blur(18px);}
 }
