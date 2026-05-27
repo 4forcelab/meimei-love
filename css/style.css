@@ -645,3 +645,9 @@ footer {
   .store-card.grand-open::after{font-size:.58rem;right:-2.65rem;top:.9rem;}
   .store-card.grand-open .opening-confetti{font-size:.62rem;letter-spacing:.45em;}
 }
+
+
+/* === v4.4 social cleanup: remove Threads card + remove social hotpot sticker === */
+.app-grid{grid-template-columns:repeat(3,1fr)!important;max-width:820px!important;}
+.social .sticker-noodle{display:none!important;}
+@media(max-width:768px){.app-grid{grid-template-columns:1fr!important;max-width:100%!important;}.social .sticker-noodle{display:none!important;}}
