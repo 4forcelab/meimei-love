@@ -465,6 +465,22 @@
       }
     },
     {
+      "id": "side_kr_kimchi",
+      "ichef_name": "韓式泡菜",
+      "display_name": "韓式泡菜",
+      "category": "side",
+      "alternate_names": [],
+      "available": true,
+      "short_desc": "",
+      "detail_module": null,
+      "dietary": {
+        "vegetarian": false,
+        "contains_pork": false,
+        "contains_egg": false,
+        "_note": "含魚露為葷（海鮮，非豬）；全品牌僅此一種韓式泡菜，品名刻意不標素"
+      }
+    },
+    {
       "id": "side_golden_kimchi",
       "ichef_name": "黃金泡菜",
       "display_name": "黃金泡菜",
@@ -510,22 +526,6 @@
         "contains_pork": false,
         "contains_egg": false,
         "contains_allium": true
-      }
-    },
-    {
-      "id": "side_kr_kimchi",
-      "ichef_name": "韓式泡菜",
-      "display_name": "韓式泡菜",
-      "category": "side",
-      "alternate_names": [],
-      "available": true,
-      "short_desc": "",
-      "detail_module": null,
-      "dietary": {
-        "vegetarian": false,
-        "contains_pork": false,
-        "contains_egg": false,
-        "_note": "含魚露為葷（海鮮，非豬）；全品牌僅此一種韓式泡菜，品名刻意不標素"
       }
     },
     {
@@ -728,88 +728,6 @@
       }
     },
     {
-      "id": "addon_01",
-      "ichef_name": "切塊豆皮",
-      "display_name": "切塊豆皮",
-      "category": "addon",
-      "alternate_names": [],
-      "available": true,
-      "short_desc": "",
-      "detail_module": null,
-      "dietary": {
-        "vegetarian": true,
-        "contains_pork": false,
-        "contains_egg": null
-      }
-    },
-    {
-      "id": "addon_02",
-      "ichef_name": "上紅青花菜",
-      "display_name": "青花菜（綠花椰）",
-      "category": "addon",
-      "alternate_names": [
-        "上紅青花菜"
-      ],
-      "available": true,
-      "short_desc": "",
-      "detail_module": null,
-      "dietary": {
-        "vegetarian": true,
-        "contains_pork": false,
-        "contains_egg": null
-      }
-    },
-    {
-      "id": "addon_03",
-      "ichef_name": "川武凍豆腐",
-      "display_name": "凍豆腐",
-      "category": "addon",
-      "alternate_names": [
-        "川武凍豆腐"
-      ],
-      "available": true,
-      "short_desc": "",
-      "detail_module": null,
-      "dietary": {
-        "vegetarian": true,
-        "contains_pork": false,
-        "contains_egg": null
-      }
-    },
-    {
-      "id": "addon_04",
-      "ichef_name": "高麗菜",
-      "display_name": "高麗菜",
-      "category": "addon",
-      "alternate_names": [],
-      "available": true,
-      "short_desc": "",
-      "detail_module": null,
-      "dietary": {
-        "vegetarian": true,
-        "contains_pork": false,
-        "contains_egg": null
-      }
-    },
-    {
-      "id": "addon_05",
-      "ichef_name": "雞蛋",
-      "display_name": "雞蛋先生品牌蛋",
-      "category": "addon",
-      "alternate_names": [
-        "雞蛋"
-      ],
-      "available": true,
-      "short_desc": "",
-      "detail_module": null,
-      "dietary": {
-        "vegetarian": true,
-        "contains_pork": false,
-        "contains_egg": true,
-        "_note": "蛋為中立，鍋美美素食基準含蛋"
-      }
-    },
-    {
       "id": "addon_06",
       "ichef_name": "土雞蛋餃",
       "display_name": "手工土雞蛋餃",
@@ -906,102 +824,6 @@
       }
     },
     {
-      "id": "addon_12",
-      "ichef_name": "南瓜",
-      "display_name": "南瓜",
-      "category": "addon",
-      "alternate_names": [],
-      "available": true,
-      "short_desc": "",
-      "detail_module": null,
-      "dietary": {
-        "vegetarian": true,
-        "contains_pork": false,
-        "contains_egg": null
-      }
-    },
-    {
-      "id": "addon_13",
-      "ichef_name": "杏鮑菇",
-      "display_name": "杏鮑菇",
-      "category": "addon",
-      "alternate_names": [],
-      "available": true,
-      "short_desc": "",
-      "detail_module": null,
-      "dietary": {
-        "vegetarian": true,
-        "contains_pork": false,
-        "contains_egg": null
-      }
-    },
-    {
-      "id": "addon_14",
-      "ichef_name": "茶鵝",
-      "display_name": "素茶鵝",
-      "category": "addon",
-      "alternate_names": [
-        "茶鵝"
-      ],
-      "available": true,
-      "short_desc": "",
-      "detail_module": null,
-      "dietary": {
-        "vegetarian": true,
-        "contains_pork": false,
-        "contains_egg": null
-      }
-    },
-    {
-      "id": "addon_15",
-      "ichef_name": "素羊肉",
-      "display_name": "素羊肉",
-      "category": "addon",
-      "alternate_names": [],
-      "available": true,
-      "short_desc": "",
-      "detail_module": null,
-      "dietary": {
-        "vegetarian": true,
-        "contains_pork": false,
-        "contains_egg": null
-      }
-    },
-    {
-      "id": "addon_16",
-      "ichef_name": "海苔卷",
-      "display_name": "素海苔卷",
-      "category": "addon",
-      "alternate_names": [
-        "海苔卷"
-      ],
-      "available": true,
-      "short_desc": "",
-      "detail_module": null,
-      "dietary": {
-        "vegetarian": true,
-        "contains_pork": false,
-        "contains_egg": null
-      }
-    },
-    {
-      "id": "addon_17",
-      "ichef_name": "全廣香雞排",
-      "display_name": "素香雞排",
-      "category": "addon",
-      "alternate_names": [
-        "全廣香雞排"
-      ],
-      "available": true,
-      "short_desc": "",
-      "detail_module": null,
-      "dietary": {
-        "vegetarian": true,
-        "contains_pork": false,
-        "contains_egg": null
-      }
-    },
-    {
       "id": "addon_18",
       "ichef_name": "水丸子",
       "display_name": "素貢丸",
@@ -1015,21 +837,6 @@
       "dietary": {
         "vegetarian": false,
         "contains_pork": null,
-        "contains_egg": null
-      }
-    },
-    {
-      "id": "addon_19",
-      "ichef_name": "素斑節蝦",
-      "display_name": "素斑節蝦",
-      "category": "addon",
-      "alternate_names": [],
-      "available": true,
-      "short_desc": "",
-      "detail_module": null,
-      "dietary": {
-        "vegetarian": true,
-        "contains_pork": false,
         "contains_egg": null
       }
     },
@@ -1167,6 +974,201 @@
       "dietary": {
         "vegetarian": false,
         "contains_pork": null,
+        "contains_egg": null
+      }
+    },
+    {
+      "id": "addon_01",
+      "ichef_name": "切塊豆皮",
+      "display_name": "豆皮",
+      "category": "addon",
+      "alternate_names": [
+        "切塊豆皮"
+      ],
+      "available": true,
+      "short_desc": "",
+      "detail_module": null,
+      "dietary": {
+        "vegetarian": true,
+        "contains_pork": false,
+        "contains_egg": null
+      }
+    },
+    {
+      "id": "addon_02",
+      "ichef_name": "上紅青花菜",
+      "display_name": "青花菜（綠花椰）",
+      "category": "addon",
+      "alternate_names": [
+        "上紅青花菜"
+      ],
+      "available": true,
+      "short_desc": "",
+      "detail_module": null,
+      "dietary": {
+        "vegetarian": true,
+        "contains_pork": false,
+        "contains_egg": null
+      }
+    },
+    {
+      "id": "addon_03",
+      "ichef_name": "川武凍豆腐",
+      "display_name": "凍豆腐",
+      "category": "addon",
+      "alternate_names": [
+        "川武凍豆腐"
+      ],
+      "available": true,
+      "short_desc": "",
+      "detail_module": null,
+      "dietary": {
+        "vegetarian": true,
+        "contains_pork": false,
+        "contains_egg": null
+      }
+    },
+    {
+      "id": "addon_04",
+      "ichef_name": "高麗菜",
+      "display_name": "高麗菜",
+      "category": "addon",
+      "alternate_names": [],
+      "available": true,
+      "short_desc": "",
+      "detail_module": null,
+      "dietary": {
+        "vegetarian": true,
+        "contains_pork": false,
+        "contains_egg": null
+      }
+    },
+    {
+      "id": "addon_05",
+      "ichef_name": "雞蛋",
+      "display_name": "雞蛋先生品牌蛋",
+      "category": "addon",
+      "alternate_names": [
+        "雞蛋"
+      ],
+      "available": true,
+      "short_desc": "",
+      "detail_module": null,
+      "dietary": {
+        "vegetarian": true,
+        "contains_pork": false,
+        "contains_egg": true,
+        "_note": "蛋為中立，鍋美美素食基準含蛋"
+      }
+    },
+    {
+      "id": "addon_12",
+      "ichef_name": "南瓜",
+      "display_name": "南瓜",
+      "category": "addon",
+      "alternate_names": [],
+      "available": true,
+      "short_desc": "",
+      "detail_module": null,
+      "dietary": {
+        "vegetarian": true,
+        "contains_pork": false,
+        "contains_egg": null
+      }
+    },
+    {
+      "id": "addon_13",
+      "ichef_name": "杏鮑菇",
+      "display_name": "杏鮑菇",
+      "category": "addon",
+      "alternate_names": [],
+      "available": true,
+      "short_desc": "",
+      "detail_module": null,
+      "dietary": {
+        "vegetarian": true,
+        "contains_pork": false,
+        "contains_egg": null
+      }
+    },
+    {
+      "id": "addon_14",
+      "ichef_name": "茶鵝",
+      "display_name": "素茶鵝",
+      "category": "addon",
+      "alternate_names": [
+        "茶鵝"
+      ],
+      "available": true,
+      "short_desc": "",
+      "detail_module": null,
+      "dietary": {
+        "vegetarian": true,
+        "contains_pork": false,
+        "contains_egg": null
+      }
+    },
+    {
+      "id": "addon_15",
+      "ichef_name": "素羊肉",
+      "display_name": "素羊肉",
+      "category": "addon",
+      "alternate_names": [],
+      "available": true,
+      "short_desc": "",
+      "detail_module": null,
+      "dietary": {
+        "vegetarian": true,
+        "contains_pork": false,
+        "contains_egg": null
+      }
+    },
+    {
+      "id": "addon_16",
+      "ichef_name": "海苔卷",
+      "display_name": "素海苔卷",
+      "category": "addon",
+      "alternate_names": [
+        "海苔卷"
+      ],
+      "available": true,
+      "short_desc": "",
+      "detail_module": null,
+      "dietary": {
+        "vegetarian": true,
+        "contains_pork": false,
+        "contains_egg": null
+      }
+    },
+    {
+      "id": "addon_17",
+      "ichef_name": "全廣香雞排",
+      "display_name": "素香雞排",
+      "category": "addon",
+      "alternate_names": [
+        "全廣香雞排"
+      ],
+      "available": true,
+      "short_desc": "",
+      "detail_module": null,
+      "dietary": {
+        "vegetarian": true,
+        "contains_pork": false,
+        "contains_egg": null
+      }
+    },
+    {
+      "id": "addon_19",
+      "ichef_name": "素斑節蝦",
+      "display_name": "素斑節蝦",
+      "category": "addon",
+      "alternate_names": [],
+      "available": true,
+      "short_desc": "",
+      "detail_module": null,
+      "dietary": {
+        "vegetarian": true,
+        "contains_pork": false,
         "contains_egg": null
       }
     },

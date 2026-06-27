@@ -14,7 +14,7 @@ const items = sourceItems.filter((item) => item.available !== false);
 
 const sectionCopy = {
   signature: {
-    eyebrow: "SIGNATURE",
+    eyebrow: "CLASSIC",
     tail: "經典就是經典，閉著眼睛點都不會錯。",
   },
   specialty: {
@@ -30,7 +30,7 @@ const sectionCopy = {
     tail: "選不出來？這區專門治你。",
   },
   veg_pot: {
-    eyebrow: "PLANT-BASED",
+    eyebrow: "VEGETARIAN",
     tail: "吃素也可以吃得很爽，這區整排都是。",
   },
   porridge: {
@@ -43,7 +43,7 @@ const sectionCopy = {
   },
   addon: {
     eyebrow: "ADD-ONS",
-    tail: "全台統一加點，點鍋的時候再搭。",
+    tail: "點鍋的時候再搭。",
   },
 };
 
@@ -138,7 +138,7 @@ const html = `<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>菜單｜鍋美美食豔室・時尚外帶火鍋・屏東外送</title>
-<meta name="description" content="鍋美美食豔室完整菜單：經典人氣鍋、特色風味鍋、東北酸白菜鍋、草食系暖鍋、粥品、消暑小菜與加點料。素食標記清楚，全台統一菜單。今天辛苦了，火鍋交給我。">
+<meta name="description" content="鍋美美食豔室完整菜單：經典人氣鍋、特色風味鍋、東北酸白菜鍋、草食系暖鍋、粥品、消暑小菜與加點料。素食標記清楚。今天辛苦了，火鍋交給我。">
 <meta name="keywords" content="鍋美美菜單,鍋美美火鍋菜單,屏東外帶火鍋菜單,素食火鍋,內埔火鍋外送,時尚外帶火鍋">
 <meta name="author" content="鍋美美食豔室 · 萬合天宜有限公司">
 <meta name="robots" content="index, follow">
@@ -176,21 +176,25 @@ ${jsonScript(breadcrumbSchema)}
 <link rel="stylesheet" href="../css/style.css">
 
 <style>
-/* ===== /menu/ 菜單頁專屬樣式：繼承主站奶油色調性，新增目錄版型 ===== */
+/* ===== /menu/ 菜單頁專屬樣式 =====
+   注意：hero 沿用主站 .hero/.melt-bg/.sugar class（特效定義在 style.css）。
+   下方只補目錄版型（m-* 系列），不重複定義主站已有的視覺。 */
 :root{
-  --m-cream:#FBF4E9; --m-cream2:#F6E8D6; --m-pink:#FBEAE6; --m-brown:#7B553A;
+  --m-cream:#FBF4E9; --m-cream2:#F6E8D6; --m-brown:#7B553A;
   --m-ink:#4A3826; --m-ink-soft:#8A7359; --m-gold:#C9923E; --m-veg:#5E8B4C;
   --m-line:rgba(123,85,58,.14);
 }
 .menu-wrap{background:var(--m-cream);color:var(--m-ink);font-family:'Noto Sans TC',sans-serif;}
-.menu-hero{padding:130px 6vw 50px;text-align:center;background:linear-gradient(180deg,var(--m-cream2),var(--m-cream));}
-.menu-hero .eyebrow{color:var(--m-gold);letter-spacing:.28em;font-size:.78rem;font-weight:700;}
-.menu-hero h1{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:clamp(2rem,5.5vw,3.4rem);line-height:1.25;margin:.5em 0 .3em;color:var(--m-brown);}
-.menu-hero p.lead{font-size:1.05rem;color:var(--m-ink-soft);max-width:30em;margin:0 auto;line-height:1.8;}
-.menu-hero .note{margin-top:1.4em;font-size:.86rem;color:var(--m-ink-soft);opacity:.8;}
 
-.m-section{max-width:1080px;margin:0 auto;padding:54px 6vw;border-bottom:1px solid var(--m-line);}
-.m-head{margin-bottom:1.8em;}
+/* hero：縮短高度、收掉超大留白。文字置中，沿用 melt-bg 背景與 .sugar 星星 */
+.menu-hero{min-height:auto;padding:128px 6vw 64px;text-align:center;position:relative;overflow:hidden;}
+.menu-hero .eyebrow{color:var(--m-gold);letter-spacing:.28em;font-size:.78rem;font-weight:700;}
+.menu-hero h1{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:clamp(2rem,5.5vw,3.4rem);line-height:1.25;margin:.5em 0 .35em;color:var(--m-brown);}
+.menu-hero p.lead{font-size:1.05rem;color:var(--m-ink-soft);max-width:30em;margin:0 auto;line-height:1.85;}
+.menu-hero .note{margin-top:1.4em;font-size:.86rem;color:var(--m-ink-soft);opacity:.85;}
+
+.m-section{max-width:1080px;margin:0 auto;padding:50px 6vw;border-bottom:1px solid var(--m-line);}
+.m-head{margin-bottom:1.7em;}
 .m-head .eyebrow{color:var(--m-gold);letter-spacing:.24em;font-size:.74rem;font-weight:700;}
 .m-head h2{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:clamp(1.5rem,3.6vw,2.1rem);color:var(--m-brown);margin:.25em 0 .15em;}
 .m-tail{color:var(--m-ink-soft);font-size:.96rem;}
@@ -206,18 +210,16 @@ ${jsonScript(breadcrumbSchema)}
 .menu-wrap .btn.ghost{display:inline-block;border:1.5px solid var(--m-brown);color:var(--m-brown);background:transparent;padding:11px 22px;border-radius:999px;font-weight:700;font-size:.95rem;text-decoration:none;transition:.18s;}
 .menu-wrap .btn.ghost:hover{background:var(--m-brown);color:#fff;}
 
-/* 素食主張：誠實揭露層，放 footer 上方 */
 .veg-statement{max-width:760px;margin:0 auto;padding:46px 6vw 10px;color:var(--m-ink-soft);font-size:.9rem;line-height:1.85;}
 .veg-statement h3{font-family:'Zen Maru Gothic',sans-serif;color:var(--m-brown);font-size:1.05rem;margin-bottom:.6em;font-weight:700;}
 .veg-statement .veg-tag{color:var(--m-veg);font-weight:700;}
 
-/* 頂部回首頁 / nav active */
-.menu-wrap .nav-links a[href="/menu/"], .menu-wrap .nav-links a.active{color:var(--m-gold);font-weight:700;}
+.menu-wrap .nav-links a.active{color:var(--m-gold);font-weight:700;}
 .menu-back{display:inline-block;margin:24px 6vw 0;color:var(--m-ink-soft);text-decoration:none;font-size:.92rem;}
 .menu-back:hover{color:var(--m-brown);}
 @media(max-width:600px){
-  .menu-hero{padding:108px 6vw 38px;}
-  .m-section{padding:42px 5vw;}
+  .menu-hero{padding:104px 6vw 46px;}
+  .m-section{padding:40px 5vw;}
 }
 </style>
 </head>
@@ -233,11 +235,12 @@ ${jsonScript(breadcrumbSchema)}
   </div>
 </nav>
 
-<header class="menu-hero">
+<header class="menu-hero melt-bg">
   <p class="eyebrow">MEI MEI HOT POT · MENU</p>
   <h1>先看看有什麼鍋，<br>再決定今天要被哪一鍋拯救。</h1>
   <p class="lead">經典鍋、風味鍋、草食系、粥品、加點料，慢慢看。<br>選好了再去最近的店點，鍋美美處理。</p>
   <p class="note">標 <span style="color:#5E8B4C;font-weight:700;">素 🌱</span> 的是素食品項 · 點餐請至各店外送平台</p>
+  <span class="sugar s1">✦</span><span class="sugar s2">✧</span><span class="sugar s3">⋆</span><span class="sugar s4">✦</span>
 </header>
 
 ${categories.map(renderSection).join("\n\n")}
@@ -258,14 +261,19 @@ ${categories.map(renderSection).join("\n\n")}
   <small>© 2026 鍋美美食豔室 All Rights Reserved</small>
 </footer>
 
+<script src="../js/main.js"></script>
 <script>
 (function(){
   try {
     console.log('%c鍋美美食豔室｜MENU', 'background:#7B553A;color:#fff;padding:8px 14px;border-radius:999px;font-size:14px;font-weight:bold;');
     console.log('\\n你連菜單頁都要打開 DevTools？\\n\\n餓的話前面有得點 👉 https://love.4force.com.tw/#order\\n\\n想加盟的話：0900-489-893\\n母公司：https://www.4force.com.tw\\n\\n4force lab × 鍋美美食豔室');
   } catch(e) {}
-  // reveal 動畫 fallback（若 main.js 未載入此頁）
-  document.querySelectorAll('.reveal').forEach(function(el){el.style.opacity=1;el.style.transform='none';});
+  // reveal fallback：若 main.js 的 IntersectionObserver 未涵蓋本頁元素，確保內容可見
+  setTimeout(function(){
+    document.querySelectorAll('.reveal').forEach(function(el){
+      if(getComputedStyle(el).opacity==='0'){el.style.opacity=1;el.style.transform='none';}
+    });
+  }, 600);
 })();
 </script>
 
