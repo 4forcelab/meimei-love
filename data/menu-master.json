@@ -8,9 +8,9 @@
     "rule_module": "short_desc 與 detail_module 為可選厚度層。menu 目錄頁僅依賴 id/display_name/category/vegetarian 即可渲染上線。厚介紹為獨立頁模組，做好一個掛一個，不影響前台優化。",
     "generated": "2026-06-27",
     "counts": {
-      "對客主菜單": 45,
+      "對客主菜單": 43,
       "加點料": 29,
-      "合計": 74
+      "合計": 72
     },
     "rule_dietary": "dietary 為三獨立軸（vegetarian/contains_pork/contains_egg），不可壓成單一 flag。豬/蛋/素葷一律不程式臆測，由 iCHEF 主檔或現場拍板。",
     "rule_halal_disclaimer": "提供成分層級善意提示（如含豬/含蛋），協助客人自行判斷；不提供 halal／猶太潔食等宗教潔淨認證，因設備、湯底、料理流程為混用環境。認證級保證一律不承諾。",
@@ -390,9 +390,11 @@
     {
       "id": "congee_shacha",
       "ichef_name": "沙茶皮蛋火鍋肉片粥",
-      "display_name": "沙茶皮蛋火鍋肉片粥",
+      "display_name": "沙茶皮蛋肉片粥",
       "category": "porridge",
-      "alternate_names": [],
+      "alternate_names": [
+        "沙茶皮蛋火鍋肉片粥"
+      ],
       "available": true,
       "short_desc": "",
       "detail_module": null,
@@ -524,36 +526,6 @@
         "contains_pork": false,
         "contains_egg": false,
         "_note": "含魚露為葷（海鮮，非豬）；全品牌僅此一種韓式泡菜，品名刻意不標素"
-      }
-    },
-    {
-      "id": "side_sauerkraut",
-      "ichef_name": "酸白菜",
-      "display_name": "酸白菜",
-      "category": "side",
-      "alternate_names": [],
-      "available": true,
-      "short_desc": "",
-      "detail_module": null,
-      "dietary": {
-        "vegetarian": true,
-        "contains_pork": false,
-        "contains_egg": false
-      }
-    },
-    {
-      "id": "side_jinxi_trio",
-      "ichef_name": "金喜三劍客",
-      "display_name": "金喜三劍客",
-      "category": "side",
-      "alternate_names": [],
-      "available": true,
-      "short_desc": "",
-      "detail_module": null,
-      "dietary": {
-        "vegetarian": false,
-        "contains_pork": null,
-        "contains_egg": false
       }
     },
     {
@@ -773,9 +745,11 @@
     {
       "id": "addon_02",
       "ichef_name": "上紅青花菜",
-      "display_name": "上紅青花菜",
+      "display_name": "青花菜（綠花椰）",
       "category": "addon",
-      "alternate_names": [],
+      "alternate_names": [
+        "上紅青花菜"
+      ],
       "available": true,
       "short_desc": "",
       "detail_module": null,
@@ -788,9 +762,11 @@
     {
       "id": "addon_03",
       "ichef_name": "川武凍豆腐",
-      "display_name": "川武凍豆腐",
+      "display_name": "凍豆腐",
       "category": "addon",
-      "alternate_names": [],
+      "alternate_names": [
+        "川武凍豆腐"
+      ],
       "available": true,
       "short_desc": "",
       "detail_module": null,
@@ -818,9 +794,11 @@
     {
       "id": "addon_05",
       "ichef_name": "雞蛋",
-      "display_name": "雞蛋",
+      "display_name": "雞蛋先生品牌蛋",
       "category": "addon",
-      "alternate_names": [],
+      "alternate_names": [
+        "雞蛋"
+      ],
       "available": true,
       "short_desc": "",
       "detail_module": null,
@@ -834,9 +812,11 @@
     {
       "id": "addon_06",
       "ichef_name": "土雞蛋餃",
-      "display_name": "土雞蛋餃",
+      "display_name": "手工土雞蛋餃",
       "category": "addon",
-      "alternate_names": [],
+      "alternate_names": [
+        "土雞蛋餃"
+      ],
       "available": true,
       "short_desc": "",
       "detail_module": null,
@@ -849,9 +829,11 @@
     {
       "id": "addon_07",
       "ichef_name": "燕餃",
-      "display_name": "燕餃",
+      "display_name": "手工燕餃",
       "category": "addon",
-      "alternate_names": [],
+      "alternate_names": [
+        "燕餃"
+      ],
       "available": true,
       "short_desc": "",
       "detail_module": null,
@@ -879,9 +861,11 @@
     {
       "id": "addon_09",
       "ichef_name": "生白蝦",
-      "display_name": "生白蝦",
+      "display_name": "白蝦",
       "category": "addon",
-      "alternate_names": [],
+      "alternate_names": [
+        "生白蝦"
+      ],
       "available": true,
       "short_desc": "",
       "detail_module": null,
@@ -897,7 +881,7 @@
       "display_name": "魚板絲",
       "category": "addon",
       "alternate_names": [],
-      "available": true,
+      "available": false,
       "short_desc": "",
       "detail_module": null,
       "dietary": {
@@ -954,9 +938,11 @@
     {
       "id": "addon_14",
       "ichef_name": "茶鵝",
-      "display_name": "茶鵝",
+      "display_name": "素茶鵝",
       "category": "addon",
-      "alternate_names": [],
+      "alternate_names": [
+        "茶鵝"
+      ],
       "available": true,
       "short_desc": "",
       "detail_module": null,
@@ -984,9 +970,11 @@
     {
       "id": "addon_16",
       "ichef_name": "海苔卷",
-      "display_name": "海苔卷",
+      "display_name": "素海苔卷",
       "category": "addon",
-      "alternate_names": [],
+      "alternate_names": [
+        "海苔卷"
+      ],
       "available": true,
       "short_desc": "",
       "detail_module": null,
@@ -999,9 +987,11 @@
     {
       "id": "addon_17",
       "ichef_name": "全廣香雞排",
-      "display_name": "全廣香雞排",
+      "display_name": "素香雞排",
       "category": "addon",
-      "alternate_names": [],
+      "alternate_names": [
+        "全廣香雞排"
+      ],
       "available": true,
       "short_desc": "",
       "detail_module": null,
@@ -1014,9 +1004,11 @@
     {
       "id": "addon_18",
       "ichef_name": "水丸子",
-      "display_name": "水丸子",
+      "display_name": "素貢丸",
       "category": "addon",
-      "alternate_names": [],
+      "alternate_names": [
+        "水丸子"
+      ],
       "available": true,
       "short_desc": "",
       "detail_module": null,
@@ -1044,9 +1036,11 @@
     {
       "id": "addon_20",
       "ichef_name": "魚餃",
-      "display_name": "魚餃",
+      "display_name": "手工魚餃",
       "category": "addon",
-      "alternate_names": [],
+      "alternate_names": [
+        "魚餃"
+      ],
       "available": true,
       "short_desc": "",
       "detail_module": null,
@@ -1179,9 +1173,11 @@
     {
       "id": "addon_29",
       "ichef_name": "千張豆皮",
-      "display_name": "千張豆皮",
+      "display_name": "內行千張",
       "category": "addon",
-      "alternate_names": [],
+      "alternate_names": [
+        "千張豆皮"
+      ],
       "available": true,
       "short_desc": "",
       "detail_module": null,

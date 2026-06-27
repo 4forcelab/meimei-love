@@ -9,7 +9,43 @@ const siteUrl = "https://love.4force.com.tw";
 
 const master = JSON.parse(fs.readFileSync(dataPath, "utf8"));
 const categories = master.categories || [];
-const items = master.items || [];
+const sourceItems = master.items || [];
+const items = sourceItems.filter((item) => item.available !== false);
+
+const sectionCopy = {
+  signature: {
+    eyebrow: "SIGNATURE",
+    tail: "經典就是經典，閉著眼睛點都不會錯。",
+  },
+  specialty: {
+    eyebrow: "SPECIALTY",
+    tail: "想換點口味的，這區很危險，每個都想點。",
+  },
+  sauerkraut: {
+    eyebrow: "SAUERKRAUT",
+    tail: "東北來的，酸得有道理。",
+  },
+  choice_saver: {
+    eyebrow: "CAN'T DECIDE",
+    tail: "選不出來？這區專門治你。",
+  },
+  veg_pot: {
+    eyebrow: "PLANT-BASED",
+    tail: "吃素也可以吃得很爽，這區整排都是。",
+  },
+  porridge: {
+    eyebrow: "PORRIDGE",
+    tail: "想喝粥的日子，鍋美美也有。",
+  },
+  side: {
+    eyebrow: "COOL SIDES",
+    tail: "天氣熱，配點涼的。",
+  },
+  addon: {
+    eyebrow: "ADD-ONS",
+    tail: "全台統一加點，點鍋的時候再搭。",
+  },
+};
 
 const escapeHtml = (value = "") =>
   String(value)
@@ -19,8 +55,7 @@ const escapeHtml = (value = "") =>
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
 
-const jsonScript = (value) =>
-  JSON.stringify(value, null, 2).replaceAll("</", "<\\/");
+const jsonScript = (value) => JSON.stringify(value).replaceAll("</", "<\\/");
 
 const byCategory = new Map(categories.map((category) => [category.id, []]));
 for (const item of items) {
@@ -28,23 +63,11 @@ for (const item of items) {
   byCategory.get(item.category).push(item);
 }
 
-const isAddon = (item) => item.category === "addon";
-const mainItems = items.filter((item) => !isAddon(item));
-
 const schemaMenuItem = (item) => {
   const menuItem = {
     "@type": "MenuItem",
-    "@id": `${siteUrl}/menu/#item-${item.id}`,
     name: item.display_name,
   };
-
-  if (item.alternate_names?.length) {
-    menuItem.alternateName = item.alternate_names;
-  }
-
-  if (item.short_desc?.trim()) {
-    menuItem.description = item.short_desc.trim();
-  }
 
   if (item.dietary?.vegetarian === true) {
     menuItem.suitableForDiet = "https://schema.org/VegetarianDiet";
@@ -53,84 +76,60 @@ const schemaMenuItem = (item) => {
   return menuItem;
 };
 
-const schemaSections = categories.map((category) => {
-  const section = {
-    "@type": "MenuSection",
-    "@id": `${siteUrl}/menu/#section-${category.id}`,
-    name: category.display,
-    hasMenuItem: (byCategory.get(category.id) || []).map(schemaMenuItem),
-  };
-
-  if (category.id === "addon") {
-    section.description = "全台統一 add-on 配料，作為火鍋主餐的加點搭配。";
-  }
-
-  return section;
-});
-
 const menuSchema = {
   "@context": "https://schema.org",
   "@type": "Menu",
   "@id": `${siteUrl}/menu/#menu`,
-  name: "鍋美美食豔室全台統一菜單",
-  url: `${siteUrl}/menu/`,
+  name: "鍋美美食豔室 菜單",
   inLanguage: "zh-TW",
-  hasMenuItem: mainItems.map((item) => ({
-    "@id": `${siteUrl}/menu/#item-${item.id}`,
+  hasMenuSection: categories.map((category) => ({
+    "@type": "MenuSection",
+    name: category.display,
+    hasMenuItem: (byCategory.get(category.id) || []).map(schemaMenuItem),
   })),
-  hasMenuSection: schemaSections,
 };
 
-const renderTags = (item) => {
-  const tags = [];
-  if (item.dietary?.vegetarian === true) {
-    tags.push('<span class="menu-tag veg">素食（無肉含蛋）</span>');
-  }
-  if (item.available === false) {
-    tags.push('<span class="menu-tag sold-out-tag">補貨中</span>');
-  }
-  return tags.length ? `<div class="menu-item-tags">${tags.join("")}</div>` : "";
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "鍋美美食豔室",
+      item: `${siteUrl}/`,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "菜單",
+      item: `${siteUrl}/menu/`,
+    },
+  ],
 };
 
-const renderItem = (item) => {
-  const classes = ["menu-item-card"];
-  if (item.dietary?.vegetarian === true) classes.push("is-vegetarian");
-  if (item.available === false) classes.push("sold-out");
+const renderVegTag = (item) =>
+  item.dietary?.vegetarian === true ? '<span class="m-veg">素 🌱</span>' : "";
 
-  return `        <article class="${classes.join(" ")}" data-item-id="${escapeHtml(item.id)}">
-          <div class="menu-item-name">
-            <h3>${escapeHtml(item.display_name)}</h3>
-          </div>
-          ${renderTags(item)}
-        </article>`;
-};
-
-const renderCategoryNav = () =>
-  categories
-    .map(
-      (category) =>
-        `<a href="#${escapeHtml(category.id)}">${escapeHtml(category.display)}</a>`,
-    )
-    .join("\n        ");
+const renderItem = (item) =>
+  `      <li class="m-item">${escapeHtml(item.display_name)}${renderVegTag(item)}</li>`;
 
 const renderSection = (category) => {
+  const copy = sectionCopy[category.id] || { eyebrow: "MENU", tail: "" };
   const sectionItems = byCategory.get(category.id) || [];
-  const addonNote =
-    category.id === "addon"
-      ? '<p class="menu-section-note">全台統一加點配料，和主餐分開看，點鍋時再搭配。</p>'
-      : "";
+  const gridClass = category.id === "addon" ? "m-grid m-grid-dense" : "m-grid";
 
-  return `    <section id="${escapeHtml(category.id)}" class="menu-category-section reveal${category.id === "addon" ? " addon-section" : ""}">
-      <div class="menu-section-title">
-        <span>${escapeHtml(category.id === "addon" ? "ADD-ON" : "MENU")}</span>
-        <h2>${escapeHtml(category.display)}</h2>
-        <small>${sectionItems.length} 項</small>
-      </div>
-      ${addonNote}
-      <div class="menu-item-grid">
+  return `  <section class="m-section reveal" id="cat-${escapeHtml(category.id)}">
+    <div class="m-head">
+      <p class="eyebrow">${escapeHtml(copy.eyebrow)}</p>
+      <h2>${escapeHtml(category.display)}</h2>
+      <p class="m-tail">${escapeHtml(copy.tail)}</p>
+    </div>
+    <ul class="${gridClass}">
 ${sectionItems.map(renderItem).join("\n")}
-      </div>
-    </section>`;
+    </ul>
+    <div class="m-order-link"><a class="btn ghost" href="/#order">這區看到喜歡的 → 立即點餐</a></div>
+  </section>`;
 };
 
 const html = `<!DOCTYPE html>
@@ -138,24 +137,30 @@ const html = `<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>鍋美美菜單｜全台統一火鍋目錄</title>
-<meta name="description" content="鍋美美食豔室全台統一菜單目錄。經典人氣鍋、特色風味鍋、草食系暖鍋、粥湯與加點料，一次看清楚。">
+<title>菜單｜鍋美美食豔室・時尚外帶火鍋・屏東外送</title>
+<meta name="description" content="鍋美美食豔室完整菜單：經典人氣鍋、特色風味鍋、東北酸白菜鍋、草食系暖鍋、粥品、消暑小菜與加點料。素食標記清楚，全台統一菜單。今天辛苦了，火鍋交給我。">
+<meta name="keywords" content="鍋美美菜單,鍋美美火鍋菜單,屏東外帶火鍋菜單,素食火鍋,內埔火鍋外送,時尚外帶火鍋">
+<meta name="author" content="鍋美美食豔室 · 萬合天宜有限公司">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="${siteUrl}/menu/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="${siteUrl}/menu/">
-<meta property="og:title" content="鍋美美菜單｜全台統一火鍋目錄">
-<meta property="og:description" content="想吃什麼鍋，先來這裡看一眼。鍋美美全台共用菜單目錄。">
+<meta property="og:title" content="菜單｜鍋美美食豔室">
+<meta property="og:description" content="鍋美美完整菜單。經典鍋、風味鍋、草食系、粥品、加點料，素食標記清楚。">
 <meta property="og:image" content="${siteUrl}/images/og-image.jpeg">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:site_name" content="鍋美美食豔室">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="鍋美美菜單｜全台統一火鍋目錄">
-<meta name="twitter:description" content="經典人氣鍋、特色風味鍋、草食系暖鍋、粥湯與加點料。">
+<meta name="twitter:title" content="菜單｜鍋美美食豔室">
 <meta name="twitter:image" content="${siteUrl}/images/og-image.jpeg">
+
 <script type="application/ld+json">
 ${jsonScript(menuSchema)}
 </script>
+<script type="application/ld+json">
+${jsonScript(breadcrumbSchema)}
+</script>
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9BXZX8ENMZ"></script>
 <script>
@@ -164,57 +169,86 @@ ${jsonScript(menuSchema)}
   gtag('js', new Date());
   gtag('config', 'G-9BXZX8ENMZ');
 </script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Kaisei+Opti:wght@400;700&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css">
+
+<style>
+/* ===== /menu/ 菜單頁專屬樣式：繼承主站奶油色調性，新增目錄版型 ===== */
+:root{
+  --m-cream:#FBF4E9; --m-cream2:#F6E8D6; --m-pink:#FBEAE6; --m-brown:#7B553A;
+  --m-ink:#4A3826; --m-ink-soft:#8A7359; --m-gold:#C9923E; --m-veg:#5E8B4C;
+  --m-line:rgba(123,85,58,.14);
+}
+.menu-wrap{background:var(--m-cream);color:var(--m-ink);font-family:'Noto Sans TC',sans-serif;}
+.menu-hero{padding:130px 6vw 50px;text-align:center;background:linear-gradient(180deg,var(--m-cream2),var(--m-cream));}
+.menu-hero .eyebrow{color:var(--m-gold);letter-spacing:.28em;font-size:.78rem;font-weight:700;}
+.menu-hero h1{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:clamp(2rem,5.5vw,3.4rem);line-height:1.25;margin:.5em 0 .3em;color:var(--m-brown);}
+.menu-hero p.lead{font-size:1.05rem;color:var(--m-ink-soft);max-width:30em;margin:0 auto;line-height:1.8;}
+.menu-hero .note{margin-top:1.4em;font-size:.86rem;color:var(--m-ink-soft);opacity:.8;}
+
+.m-section{max-width:1080px;margin:0 auto;padding:54px 6vw;border-bottom:1px solid var(--m-line);}
+.m-head{margin-bottom:1.8em;}
+.m-head .eyebrow{color:var(--m-gold);letter-spacing:.24em;font-size:.74rem;font-weight:700;}
+.m-head h2{font-family:'Zen Maru Gothic',sans-serif;font-weight:900;font-size:clamp(1.5rem,3.6vw,2.1rem);color:var(--m-brown);margin:.25em 0 .15em;}
+.m-tail{color:var(--m-ink-soft);font-size:.96rem;}
+
+.m-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
+.m-grid-dense{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;}
+.m-item{background:#fff;border:1px solid var(--m-line);border-radius:14px;padding:15px 17px;font-size:1.02rem;font-weight:500;color:var(--m-ink);display:flex;align-items:center;justify-content:space-between;gap:8px;transition:.18s ease;}
+.m-grid-dense .m-item{padding:12px 14px;font-size:.96rem;border-radius:11px;}
+.m-item:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(123,85,58,.1);border-color:rgba(201,146,62,.4);}
+.m-veg{flex:none;font-size:.72rem;font-weight:700;color:var(--m-veg);background:rgba(94,139,76,.12);border-radius:999px;padding:3px 9px;white-space:nowrap;}
+
+.m-order-link{margin-top:1.8em;}
+.menu-wrap .btn.ghost{display:inline-block;border:1.5px solid var(--m-brown);color:var(--m-brown);background:transparent;padding:11px 22px;border-radius:999px;font-weight:700;font-size:.95rem;text-decoration:none;transition:.18s;}
+.menu-wrap .btn.ghost:hover{background:var(--m-brown);color:#fff;}
+
+/* 素食主張：誠實揭露層，放 footer 上方 */
+.veg-statement{max-width:760px;margin:0 auto;padding:46px 6vw 10px;color:var(--m-ink-soft);font-size:.9rem;line-height:1.85;}
+.veg-statement h3{font-family:'Zen Maru Gothic',sans-serif;color:var(--m-brown);font-size:1.05rem;margin-bottom:.6em;font-weight:700;}
+.veg-statement .veg-tag{color:var(--m-veg);font-weight:700;}
+
+/* 頂部回首頁 / nav active */
+.menu-wrap .nav-links a[href="/menu/"], .menu-wrap .nav-links a.active{color:var(--m-gold);font-weight:700;}
+.menu-back{display:inline-block;margin:24px 6vw 0;color:var(--m-ink-soft);text-decoration:none;font-size:.92rem;}
+.menu-back:hover{color:var(--m-brown);}
+@media(max-width:600px){
+  .menu-hero{padding:108px 6vw 38px;}
+  .m-section{padding:42px 5vw;}
+}
+</style>
 </head>
-<body class="menu-page">
+<body class="menu-wrap">
+
 <nav class="nav">
-  <a class="nav-logo" href="../#hero">鍋美美<span>食豔室</span></a>
+  <a class="nav-logo" href="/">鍋美美<span>食豔室</span></a>
   <div class="nav-links">
-    <a href="../#order">立即點餐</a>
-    <a href="#menu">看菜單</a>
-    <a href="../#franchise">一起開店</a>
+    <a href="/#order">立即點餐</a>
+    <a href="/menu/" class="active">看菜單</a>
+    <a href="/#mood">鍋美美是誰</a>
+    <a href="/#franchise">一起開店</a>
   </div>
 </nav>
-<a class="mobile-order" href="../#order">今天辛苦了，點一鍋</a>
 
-<section class="hero menu-hero melt-bg">
-  <div class="hero-copy reveal">
-    <p class="eyebrow">MEI MEI HOT POT · MENU</p>
-    <h1>鍋美美菜單。<br><span>今天想吃哪一鍋？</span></h1>
-    <p class="hero-lead">全台共用的火鍋目錄。先看鍋、再選店，剩下的交給鍋美美。</p>
-    <div class="hero-actions">
-      <a class="btn primary" href="#menu">看完整菜單</a>
-      <a class="btn ghost" href="../#order">回首頁點餐</a>
-    </div>
-    <div class="proof-strip">
-      <span>♨ 經典鍋、特色鍋、粥湯一次看</span>
-      <span>🥬 素食（無肉含蛋）清楚標記</span>
-      <span>🍥 加點料獨立整理，不跟主餐混在一起</span>
-    </div>
-  </div>
-  <div class="hero-art reveal">
-    <div class="cream-orbit"></div>
-    <img src="../images/hero-pot.png" alt="鍋美美火鍋菜單">
-  </div>
-  <span class="sugar s1">✦</span><span class="sugar s2">✧</span><span class="sugar s3">⋆</span><span class="sugar s4">✦</span>
+<header class="menu-hero">
+  <p class="eyebrow">MEI MEI HOT POT · MENU</p>
+  <h1>先看看有什麼鍋，<br>再決定今天要被哪一鍋拯救。</h1>
+  <p class="lead">經典鍋、風味鍋、草食系、粥品、加點料，慢慢看。<br>選好了再去最近的店點，鍋美美處理。</p>
+  <p class="note">標 <span style="color:#5E8B4C;font-weight:700;">素 🌱</span> 的是素食品項 · 點餐請至各店外送平台</p>
+</header>
+
+${categories.map(renderSection).join("\n\n")}
+
+<a class="menu-back" href="/#order">← 回首頁，直接點餐</a>
+
+<section class="veg-statement reveal">
+  <h3>關於素食，鍋美美想老實說</h3>
+  <p>標示 <span class="veg-tag">素 🌱</span> 的品項為<strong>鍋邊素（無肉）</strong>，可能含蛋。鍋美美煮素鍋時會盡力把鍋具、湯底分開處理，但我們是葷素共用的廚房，<strong>不做純素、五辛全淨或宗教潔淨等級的認證保證</strong>。</p>
+  <p>我們只承諾守得住的事：標素的，就是無肉。其餘的細節（含蛋、五辛、鍋具分離程度），我們誠實告訴你，讓你依自己的標準自己決定。做得乾淨是我們的本分，但本分不等於認證——這點我們不裝。</p>
 </section>
-
-<main id="menu" class="menu-catalog section-white">
-  <div class="section-head reveal">
-    <p class="eyebrow">MENU CATALOG</p>
-    <h2>先不要想太多，<br>先把想吃的圈起來。</h2>
-    <p>這裡是總部統一菜單目錄；實際點餐請回到最近的店。</p>
-  </div>
-  <div class="menu-category-nav reveal" aria-label="菜單分類">
-        ${renderCategoryNav()}
-  </div>
-  <div class="menu-category-stack">
-${categories.map(renderSection).join("\n")}
-  </div>
-</main>
 
 <footer>
   <strong>鍋美美食豔室</strong>
@@ -223,7 +257,18 @@ ${categories.map(renderSection).join("\n")}
   <span class="footer-editorial">Not luxury. Just very serious about hotpot.</span>
   <small>© 2026 鍋美美食豔室 All Rights Reserved</small>
 </footer>
-<script src="../js/main.js"></script>
+
+<script>
+(function(){
+  try {
+    console.log('%c鍋美美食豔室｜MENU', 'background:#7B553A;color:#fff;padding:8px 14px;border-radius:999px;font-size:14px;font-weight:bold;');
+    console.log('\\n你連菜單頁都要打開 DevTools？\\n\\n餓的話前面有得點 👉 https://love.4force.com.tw/#order\\n\\n想加盟的話：0900-489-893\\n母公司：https://www.4force.com.tw\\n\\n4force lab × 鍋美美食豔室');
+  } catch(e) {}
+  // reveal 動畫 fallback（若 main.js 未載入此頁）
+  document.querySelectorAll('.reveal').forEach(function(el){el.style.opacity=1;el.style.transform='none';});
+})();
+</script>
+
 </body>
 </html>
 `;
@@ -231,14 +276,16 @@ ${categories.map(renderSection).join("\n")}
 fs.mkdirSync(outputDir, { recursive: true });
 fs.writeFileSync(outputPath, html);
 
+const hiddenItems = sourceItems.filter((item) => item.available === false);
+
 console.log(
   JSON.stringify(
     {
       output: path.relative(root, outputPath),
       categories: categories.length,
-      items: items.length,
-      topLevelMenuItems: mainItems.length,
-      addonItems: items.length - mainItems.length,
+      sourceItems: sourceItems.length,
+      renderedItems: items.length,
+      hiddenItems: hiddenItems.map((item) => item.display_name),
     },
     null,
     2,
