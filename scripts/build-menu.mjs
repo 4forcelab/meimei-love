@@ -184,7 +184,13 @@ ${jsonScript(breadcrumbSchema)}
   --m-ink:#4A3826; --m-ink-soft:#8A7359; --m-gold:#C9923E; --m-veg:#5E8B4C;
   --m-line:rgba(123,85,58,.14);
 }
-.menu-wrap{background:var(--m-cream);color:var(--m-ink);font-family:'Noto Sans TC',sans-serif;}
+.menu-wrap{
+  background:
+    radial-gradient(ellipse at 18% 10%,rgba(253,221,232,.34),transparent 36%),
+    radial-gradient(ellipse at 82% 18%,rgba(214,239,236,.24),transparent 34%),
+    linear-gradient(180deg,var(--m-cream),var(--m-cream2) 42%,var(--m-cream));
+  color:var(--m-ink);font-family:'Noto Sans TC',sans-serif;
+}
 
 /* hero：縮短高度、收掉超大留白。文字置中，沿用 melt-bg 背景與 .sugar 星星 */
 .menu-hero{min-height:auto;padding:128px 6vw 64px;text-align:center;position:relative;overflow:hidden;isolation:isolate;}
@@ -196,12 +202,37 @@ ${jsonScript(breadcrumbSchema)}
 .menu-hero p.lead{font-size:1.05rem;color:var(--m-ink-soft);max-width:30em;margin:0 auto;line-height:1.85;}
 .menu-hero .note{margin-top:1.4em;font-size:.86rem;color:var(--m-ink-soft);opacity:.85;}
 
-.m-section{max-width:1080px;margin:0 auto;padding:50px 6vw;border-bottom:1px solid var(--m-line);position:relative;isolation:isolate;overflow:hidden;}
-.m-section::before{content:"";position:absolute;inset:0 calc(50% - 50vw);z-index:0;pointer-events:none;}
+.menu-flow{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(180deg,rgba(255,245,240,.72),rgba(255,250,248,.36) 18%,rgba(251,244,233,.66) 58%,rgba(255,245,240,.88));}
+.menu-flow::before,.menu-flow::after{content:"";position:absolute;pointer-events:none;z-index:0;}
+.menu-flow > *{position:relative;z-index:1;}
+.menu-flow::before{
+  inset:-9rem -18vw -4rem;
+  background:
+    radial-gradient(ellipse 46% 12% at 84% 8%,rgba(214,239,236,.34),transparent 68%),
+    radial-gradient(ellipse 36% 11% at 12% 21%,rgba(253,221,232,.28),transparent 70%),
+    radial-gradient(ellipse 48% 12% at 90% 43%,rgba(200,232,226,.24),transparent 68%),
+    radial-gradient(ellipse 38% 12% at 17% 63%,rgba(255,250,248,.38),transparent 68%),
+    radial-gradient(ellipse 50% 13% at 76% 82%,rgba(214,239,236,.2),transparent 70%);
+  filter:blur(2px);
+}
+.menu-flow::after{
+  top:7rem;right:-28vw;width:72vw;height:calc(100% - 4rem);
+  background:
+    radial-gradient(ellipse at 52% 18%,rgba(200,232,226,.2),transparent 58%),
+    radial-gradient(ellipse at 40% 54%,rgba(253,221,232,.16),transparent 56%),
+    radial-gradient(ellipse at 58% 84%,rgba(214,239,236,.16),transparent 62%);
+  border-radius:45% 55% 52% 48%/38% 42% 58% 62%;
+  filter:blur(34px);
+  opacity:.76;
+  animation:melt 16s ease-in-out infinite;
+}
+.m-section{max-width:1080px;margin:0 auto;padding:50px 6vw;position:relative;isolation:isolate;overflow:visible;}
+.m-section::before{content:"";position:absolute;inset:-38px calc(50% - 50vw);z-index:0;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(255,250,248,.3) 24%,transparent 86%);}
 .m-section::after{position:absolute;z-index:0;pointer-events:none;font-family:var(--round);font-weight:900;font-size:1.1rem;opacity:.28;animation:sparkle 4.8s ease-in-out infinite;}
 .m-section > *{position:relative;z-index:1;}
-.m-section:nth-of-type(odd)::before{background:radial-gradient(ellipse at 16% 18%,rgba(253,221,232,.22),transparent 34%),linear-gradient(180deg,rgba(255,245,240,.82),rgba(255,249,244,.9) 18%,rgba(255,245,240,.86) 82%,rgba(255,250,248,.78));}
-.m-section:nth-of-type(even)::before{background:radial-gradient(ellipse at 82% 16%,rgba(255,250,248,.62),transparent 38%),linear-gradient(180deg,rgba(255,245,240,.78),rgba(214,239,236,.58) 18%,rgba(214,239,236,.44) 82%,rgba(255,245,240,.74));}
+.m-section:nth-of-type(3n+1)::before{background:radial-gradient(ellipse at 14% 30%,rgba(253,221,232,.16),transparent 48%),linear-gradient(180deg,transparent,rgba(255,250,248,.24) 28%,transparent 88%);}
+.m-section:nth-of-type(3n+2)::before{background:radial-gradient(ellipse at 86% 46%,rgba(200,232,226,.2),transparent 56%),linear-gradient(180deg,transparent,rgba(255,245,240,.22) 30%,transparent 90%);}
+.m-section:nth-of-type(3n)::before{background:radial-gradient(ellipse at 52% 18%,rgba(255,250,248,.3),transparent 58%),linear-gradient(180deg,transparent,rgba(214,239,236,.12) 42%,transparent 92%);}
 .m-section:nth-of-type(odd)::after{content:"⋆";right:calc(50% - 45vw);top:18%;color:var(--pink-d);}
 .m-section:nth-of-type(even)::after{content:"✦";left:calc(50% - 44vw);bottom:18%;color:var(--tiff-d);animation-delay:.7s;}
 .m-head{margin-bottom:1.7em;}
@@ -230,6 +261,8 @@ ${jsonScript(breadcrumbSchema)}
 @media(max-width:600px){
   .menu-hero{padding:104px 6vw 46px;}
   .menu-hero.melt-bg::before{top:14%;right:-26%;width:88vw;height:36vh;opacity:.48;}
+  .menu-flow::before{inset:-5rem -44vw -3rem;}
+  .menu-flow::after{right:-46vw;width:96vw;filter:blur(30px);opacity:.62;}
   .m-section{padding:40px 5vw;}
   .m-section::after{font-size:.9rem;opacity:.2;}
 }
@@ -255,6 +288,7 @@ ${jsonScript(breadcrumbSchema)}
   <span class="sugar s1">✦</span><span class="sugar s2">✧</span><span class="sugar s3">⋆</span><span class="sugar s4">✦</span>
 </header>
 
+<main class="menu-flow">
 ${categories.map(renderSection).join("\n\n")}
 
 <a class="menu-back" href="/#order">← 回首頁，直接點餐</a>
@@ -264,6 +298,7 @@ ${categories.map(renderSection).join("\n\n")}
   <p>標示 <span class="veg-tag">素 🌱</span> 的品項為<strong>鍋邊素（無肉）</strong>，可能含蛋。鍋美美煮素鍋時會盡力把鍋具、湯底分開處理，但我們是葷素共用的廚房，<strong>不做純素、五辛全淨或宗教潔淨等級的認證保證</strong>。</p>
   <p>我們只承諾守得住的事：標素的，就是無肉。其餘的細節（含蛋、五辛、鍋具分離程度），我們誠實告訴你，讓你依自己的標準自己決定。做得乾淨是我們的本分，但本分不等於認證——這點我們不裝。</p>
 </section>
+</main>
 
 <footer>
   <strong>鍋美美食豔室</strong>
