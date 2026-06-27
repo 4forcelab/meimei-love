@@ -8,9 +8,9 @@
     "rule_module": "short_desc 與 detail_module 為可選厚度層。menu 目錄頁僅依賴 id/display_name/category/vegetarian 即可渲染上線。厚介紹為獨立頁模組，做好一個掛一個，不影響前台優化。",
     "generated": "2026-06-27",
     "counts": {
-      "對客主菜單": 47,
+      "對客主菜單": 45,
       "加點料": 29,
-      "合計": 76
+      "合計": 74
     },
     "rule_dietary": "dietary 為三獨立軸（vegetarian/contains_pork/contains_egg），不可壓成單一 flag。豬/蛋/素葷一律不程式臆測，由 iCHEF 主檔或現場拍板。",
     "rule_halal_disclaimer": "提供成分層級善意提示（如含豬/含蛋），協助客人自行判斷；不提供 halal／猶太潔食等宗教潔淨認證，因設備、湯底、料理流程為混用環境。認證級保證一律不承諾。",

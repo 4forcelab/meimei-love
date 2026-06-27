@@ -647,6 +647,7 @@ footer {
 }
 
 /* === menu page === */
+.order-menu-link{margin-top:1.25rem}
 .menu-hero{min-height:86vh}
 .menu-hero .hero-art img{background:rgba(255,250,248,.45)}
 .menu-catalog{padding:6rem 7vw}
