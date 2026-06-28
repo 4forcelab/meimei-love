@@ -907,7 +907,7 @@ footer {
 
 /* === v5.0 homepage menu marquee (彈幕導流到 /menu/) + mobile 看菜單 鈕 === */
 .menu-marquee{display:block;text-decoration:none;position:relative;width:100vw;
-  margin:2.4rem calc(50% - 50vw) 0;padding:1.1rem 0 .2rem;overflow:hidden;}
+  margin:1.6rem calc(50% - 50vw) 0;padding:2.5rem 0 1.7rem;overflow:hidden;}
 .marquee-viewport{display:flex;flex-direction:column;gap:.7rem;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
   mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);}
@@ -959,9 +959,9 @@ footer {
 @keyframes chipWobble{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
 @keyframes chipTrip{
   0%,68%,100%{transform:rotate(0) translateY(0)}
-  76%{transform:rotate(14deg) translateY(3px)}
-  84%{transform:rotate(-7deg) translateY(0)}
-  91%{transform:rotate(4deg)}
+  76%{transform:rotate(10deg) translateY(2px)}
+  84%{transform:rotate(-5deg) translateY(0)}
+  91%{transform:rotate(3deg)}
 }
 /* 手機 / 減動效：只留彈幕滑動，關掉每顆的搖晃摔倒，省效能 */
 @media(max-width:768px){.mq-chip{animation:none!important;}}

@@ -255,12 +255,23 @@ document.querySelectorAll('.claim-card').forEach(card => {
 // Homepage menu marquee: give each chip a mood (排隊排到生氣的一排鍋), then
 // duplicate each set so the -50% translate loops seamlessly (clone carries the moods).
 (() => {
-  const MOODS = ['💢', '😤', '💢', '😠', '🥱', '😒', '🔥', '😮‍💨', '💢', '🫠', '😣', '🙄', '🥲', '😑', '⏳', '💢', '😖'];
-  document.querySelectorAll('.menu-marquee .marquee-set .mq-chip').forEach((chip, i) => {
+  // Signature dishes get a fixed, on-theme emoji; everyone else is a grumpy
+  // queue (random from the impatient pool). Matched by substring of the name.
+  const FIXED = [
+    ['麻辣鍋', '🔥'], ['壽喜', '😌'], ['南瓜', '🎃'], ['牛奶鍋', '🥛'], ['椰奶', '🥥'],
+    ['番茄', '🍅'], ['霸總', '💪'], ['火鍋料我都要', '🤩'], ['咖哩', '🍛'], ['黃金', '✨'],
+    ['韓式泡菜', '🌶️'],
+  ];
+  const POOL = ['💢', '😤', '😠', '😒', '🥱', '😮‍💨', '🙄', '🫠', '😣', '😑', '⏳', '😖', '💢', '😤'];
+  const moodFor = (name) => {
+    for (const [k, e] of FIXED) if (name.includes(k)) return e;
+    return POOL[Math.floor(Math.random() * POOL.length)];
+  };
+  document.querySelectorAll('.menu-marquee .marquee-set .mq-chip').forEach((chip) => {
     const mood = document.createElement('span');
     mood.className = 'mq-mood';
     mood.setAttribute('aria-hidden', 'true');
-    mood.textContent = MOODS[i % MOODS.length];
+    mood.textContent = moodFor(chip.textContent.trim());
     chip.appendChild(mood);
   });
   document.querySelectorAll('.menu-marquee .marquee-track').forEach((track) => {
