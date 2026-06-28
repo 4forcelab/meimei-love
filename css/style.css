@@ -682,3 +682,24 @@ footer {
 .app-grid{grid-template-columns:repeat(3,1fr)!important;max-width:820px!important;}
 .social .sticker-noodle{display:none!important;}
 @media(max-width:768px){.app-grid{grid-template-columns:1fr!important;max-width:100%!important;}.social .sticker-noodle{display:none!important;}}
+
+
+/* === v4.5 gacha readability: dim+blur backdrop so the pulled card never collides with the page behind ===
+   Old v3.5/v3.6 backdrop was 18% + no blur -> underlying store cards & the
+   "再點一次收回去" hint bled through and overlapped on both desktop and mobile. */
+.gacha-backdrop{
+  background:rgba(61,35,20,.46)!important;
+  backdrop-filter:blur(11px) saturate(1.04)!important;
+  -webkit-backdrop-filter:blur(11px) saturate(1.04)!important;
+}
+/* Hint pill: keep it legible on its own, never relying on whatever sits behind it. */
+.gacha-modal-hint{
+  display:block;
+  width:fit-content;
+  margin:.7rem auto 0;
+  padding:.34rem 1.05rem;
+  border-radius:999px;
+  background:rgba(61,35,20,.32);
+  -webkit-backdrop-filter:blur(4px);
+  backdrop-filter:blur(4px);
+}
