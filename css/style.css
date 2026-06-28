@@ -907,21 +907,23 @@ footer {
 
 /* === v5.0 homepage menu marquee (彈幕導流到 /menu/) + mobile 看菜單 鈕 === */
 .menu-marquee{display:block;text-decoration:none;position:relative;width:100vw;
-  margin:1.6rem calc(50% - 50vw) 0;padding:2.5rem 0 1.7rem;overflow:hidden;}
-.marquee-viewport{display:flex;flex-direction:column;gap:.7rem;
+  margin:1.4rem calc(50% - 50vw) 0;padding:1rem 0 .8rem;overflow:hidden;}
+/* vertical padding lives HERE (the masked box) so the mood badges that poke above
+   each chip aren't clipped by the mask. gap = space between the two rows. */
+.marquee-viewport{display:flex;flex-direction:column;gap:1rem;padding:1.4rem 0;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
   mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);}
 .marquee-track{display:flex;width:max-content;will-change:transform;}
-.marquee-set{display:flex;gap:.7rem;padding-right:.7rem;flex:0 0 auto;}
+.marquee-set{display:flex;gap:.9rem;padding-right:.9rem;flex:0 0 auto;}
 .t-left{animation:mqLeft 36s linear infinite;}
 .t-right{animation:mqRight 46s linear infinite;}
 .menu-marquee:hover .marquee-track{animation-play-state:paused;}
 @keyframes mqLeft{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @keyframes mqRight{from{transform:translateX(-50%)}to{transform:translateX(0)}}
-.mq-chip{flex:0 0 auto;white-space:nowrap;font-family:var(--round);font-weight:700;font-size:.92rem;
+.mq-chip{flex:0 0 auto;white-space:nowrap;font-family:var(--round);font-weight:700;font-size:1.02rem;
   color:var(--brown);background:linear-gradient(145deg,#fff,rgba(255,247,235,.92));
-  border:1.5px solid rgba(201,146,62,.3);border-radius:999px;padding:.5rem 1.1rem;
-  box-shadow:0 8px 20px rgba(123,85,58,.08);}
+  border:1.5px solid rgba(201,146,62,.3);border-radius:999px;padding:.62rem 1.35rem;
+  box-shadow:0 10px 24px rgba(123,85,58,.1);}
 .mq-chip.veg{color:var(--tiff-d);border-color:rgba(105,183,173,.42);
   background:linear-gradient(145deg,#fff,rgba(214,239,236,.62));}
 .marquee-cta{display:block;text-align:center;margin-top:1rem;font-family:var(--round);font-weight:900;
