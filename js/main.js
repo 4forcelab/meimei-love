@@ -252,11 +252,22 @@ document.querySelectorAll('.claim-card').forEach(card => {
 })();
 
 
-// Homepage menu marquee: duplicate each set so the -50% translate loops seamlessly.
-document.querySelectorAll('.menu-marquee .marquee-track').forEach((track) => {
-  const set = track.querySelector('.marquee-set');
-  if (!set) return;
-  const clone = set.cloneNode(true);
-  clone.setAttribute('aria-hidden', 'true');
-  track.appendChild(clone);
-});
+// Homepage menu marquee: give each chip a mood (排隊排到生氣的一排鍋), then
+// duplicate each set so the -50% translate loops seamlessly (clone carries the moods).
+(() => {
+  const MOODS = ['💢', '😤', '💢', '😠', '🥱', '😒', '🔥', '😮‍💨', '💢', '🫠', '😣', '🙄', '🥲', '😑', '⏳', '💢', '😖'];
+  document.querySelectorAll('.menu-marquee .marquee-set .mq-chip').forEach((chip, i) => {
+    const mood = document.createElement('span');
+    mood.className = 'mq-mood';
+    mood.setAttribute('aria-hidden', 'true');
+    mood.textContent = MOODS[i % MOODS.length];
+    chip.appendChild(mood);
+  });
+  document.querySelectorAll('.menu-marquee .marquee-track').forEach((track) => {
+    const set = track.querySelector('.marquee-set');
+    if (!set) return;
+    const clone = set.cloneNode(true);
+    clone.setAttribute('aria-hidden', 'true');
+    track.appendChild(clone);
+  });
+})();

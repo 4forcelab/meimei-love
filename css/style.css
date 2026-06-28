@@ -966,3 +966,16 @@ footer {
 /* 手機 / 減動效：只留彈幕滑動，關掉每顆的搖晃摔倒，省效能 */
 @media(max-width:768px){.mq-chip{animation:none!important;}}
 @media(prefers-reduced-motion:reduce){.mq-chip{animation:none!important;}}
+
+/* === v5.2 排隊排到生氣：每顆膠囊一個心情 emoji，氣到發抖 === */
+.mq-chip{position:relative;}
+.mq-mood{position:absolute;top:-9px;right:-4px;font-size:.82rem;line-height:1;pointer-events:none;
+  filter:drop-shadow(0 1px 1px rgba(0,0,0,.18));transform-origin:center bottom;
+  animation:moodThrob 1.8s ease-in-out infinite;}
+.mq-chip:nth-child(2n) .mq-mood{animation-delay:-.5s;}
+.mq-chip:nth-child(3n) .mq-mood{animation-delay:-1s;animation-duration:1.5s;}
+.mq-chip:nth-child(5n) .mq-mood{animation-delay:-1.3s;animation-duration:2.1s;}
+.mq-chip:hover .mq-mood{animation-duration:.5s;}  /* 戳它就氣到狂抖 */
+@keyframes moodThrob{0%,100%{transform:scale(1) rotate(0)}42%{transform:scale(1.24) rotate(-7deg)}58%{transform:scale(1.08) rotate(5deg)}}
+@media(max-width:768px){.mq-mood{animation:none!important;}}
+@media(prefers-reduced-motion:reduce){.mq-mood{animation:none!important;}}
