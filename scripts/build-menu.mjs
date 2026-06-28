@@ -27,13 +27,21 @@ if (fs.existsSync(copyPath)) {
   }
 }
 
-// Categories that are "鍋物" (full pots) and therefore carry the standard included set.
-// 粥/小菜/加點料 are single items, not pots — no standard set. choice_saver waits for copy direction.
+// Which categories auto-carry the standard included set (粥/小菜/加點料 are single items, not pots).
 const STD_POT_CATEGORIES = new Set(["signature", "specialty", "sauerkraut", "veg_pot"]);
-const includedFor = (item) => {
-  if (!STD_POT_CATEGORIES.has(item.category)) return [];
-  const set = item.dietary?.vegetarian === true ? includedSets.veg : includedSets.meat;
-  return Array.isArray(set) ? set : [];
+// Resolve a pot's content list + label. Precedence:
+//   1. copy.included (explicit custom list) -> label 內含
+//   2. copy.std ('meat'|'veg') or an auto STD category -> standard set, label 鍋物均含
+//      (copy.noShrimp removes 白蝦 from the standard set)
+const includedFor = (item, copy) => {
+  if (Array.isArray(copy?.included)) {
+    return { list: copy.included, label: "內含" };
+  }
+  const stdKey = copy?.std || (STD_POT_CATEGORIES.has(item.category) ? (item.dietary?.vegetarian === true ? "veg" : "meat") : null);
+  if (!stdKey) return { list: [], label: "" };
+  let set = Array.isArray(includedSets[stdKey]) ? includedSets[stdKey].slice() : [];
+  if (copy?.noShrimp) set = set.filter((x) => x !== "白蝦");
+  return { list: set, label: "鍋物均含" };
 };
 
 const sectionCopy = {
@@ -168,13 +176,17 @@ const bubblePayload = {};
 for (const item of items) {
   const copy = menuCopy[item.id];
   if (!copy?.bubble) continue;
+  const inc = includedFor(item, copy);
   bubblePayload[item.id] = {
     name: item.display_name,
     veg: item.dietary?.vegetarian === true,
     egg: item.dietary?.contains_egg === true,
+    shrimp: inc.list.includes("白蝦"),
     bubble: copy.bubble,
     tags: Array.isArray(copy.tags) ? copy.tags : [],
-    included: includedFor(item),
+    included: inc.list,
+    includedLabel: inc.label,
+    note: typeof copy.note === "string" ? copy.note : "",
   };
 }
 

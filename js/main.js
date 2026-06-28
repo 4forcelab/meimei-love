@@ -206,10 +206,12 @@ document.querySelectorAll('.claim-card').forEach(card => {
     const diet = [];
     if (d.veg) diet.push('素 🌱');
     if (d.egg) diet.push('含蛋');
+    if (d.shrimp) diet.push('含蝦');
     const dietLine = diet.length ? `<p class="bubble-diet">${diet.join('・')}</p>` : '';
     const inc = Array.isArray(d.included) && d.included.length
-      ? `<p class="bubble-included"><b>鍋物均含</b>${d.included.map(esc).join('・')}</p>`
+      ? `<p class="bubble-included"><b>${esc(d.includedLabel || '鍋物均含')}</b>${d.included.map(esc).join('・')}</p>`
       : '';
+    const note = d.note ? `<p class="bubble-note">${esc(d.note)}</p>` : '';
     const sticker = STICKERS[idx % STICKERS.length];
     modal.innerHTML =
       `<span class="bubble-sticker"><img src="${sticker}" alt="鍋美美"></span>` +
@@ -221,6 +223,7 @@ document.querySelectorAll('.claim-card').forEach(card => {
         `<p class="bubble-text">${esc(d.bubble)}</p>` +
         inc +
         dietLine +
+        note +
         `<a class="bubble-cta" href="/#order">想吃這鍋 → 去點餐</a>` +
       `</div>` +
       `<div class="bubble-hint">點旁邊收回去</div>`;

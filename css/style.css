@@ -828,7 +828,8 @@ footer {
   background:rgba(201,146,62,.08);border:1px dashed rgba(201,146,62,.32);border-radius:14px;
   padding:.5rem .7rem;margin-bottom:.8rem;}
 .bubble-included b{color:var(--m-brown,#7B553A);font-weight:900;margin-right:.4em;letter-spacing:.04em;}
-.bubble-diet{font-family:var(--round);font-weight:700;font-size:.78rem;color:var(--m-veg,#5E8B4C);margin-bottom:1rem;}
+.bubble-diet{font-family:var(--round);font-weight:700;font-size:.78rem;color:var(--m-veg,#5E8B4C);margin-bottom:.5rem;}
+.bubble-note{font-family:var(--round);font-size:.72rem;color:var(--m-ink-soft,#8A7359);margin-bottom:1rem;opacity:.9;}
 .bubble-cta{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;
   font-family:var(--round);font-weight:900;font-size:.9rem;letter-spacing:.04em;color:#fff;
   background:var(--m-brown,#7B553A);border-radius:999px;padding:.7rem 1.4rem;
