@@ -1,0 +1,11 @@
+# Build-time / internal only — never serve these publicly.
+# (Pure static deploy: no build runs on Vercel, so these are unused at runtime.)
+# NOTE: data/menu-bubble.json is intentionally NOT ignored — the homepage marquee
+# fetches it, and it carries display names only (no ichef_name).
+
+data/menu-master.json
+data/menu-copy.json
+scripts/
+SPEC.md
+README.md
+.DS_Store
