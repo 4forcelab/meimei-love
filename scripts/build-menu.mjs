@@ -160,7 +160,7 @@ const hasBubble = (item) => Boolean(menuCopy[item.id]?.bubble);
 const renderItem = (item) => {
   const open = hasBubble(item);
   const isPick = item.category === "signature"; // A. 招牌區＝抽卡 PICK UP
-  const isHell = item.id === "mala"; // D. 麻辣鍋＝登入魔界彩蛋
+  const isHell = item.id === "mala"; // D. 麻辣鍋＝香料注意 hover 彩蛋
   const cls = `m-item${open ? " has-bubble" : ""}${isPick ? " m-pick" : ""}${isHell ? " m-hellgate" : ""}`;
   const attrs = open
     ? ` data-id="${escapeHtml(item.id)}" role="button" tabindex="0" aria-label="${escapeHtml(item.display_name)}，點擊看介紹"`

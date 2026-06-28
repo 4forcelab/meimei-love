@@ -876,7 +876,7 @@ footer {
 .menu-flow{background-attachment:fixed;}
 .m-section::after{font-size:1.4rem;opacity:.34;}
 
-/* D. 角落鍋美美貼圖 + 麻辣鍋「登入魔界」hover 彩蛋
+/* D. 角落鍋美美貼圖 + 麻辣鍋「香料注意」hover 彩蛋
    note: menu 頁 inline <style> 有 `.menu-flow > *{position:relative}`，需用更高特異性 + display:block 壓過 */
 .menu-flow .m-corner{position:absolute!important;display:block;z-index:0;pointer-events:none;width:150px;opacity:.92;
   filter:drop-shadow(0 14px 24px rgba(123,85,58,.22));animation:stickerFloat 5.4s ease-in-out infinite;}
