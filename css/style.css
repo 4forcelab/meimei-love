@@ -684,6 +684,27 @@ footer {
 @media(max-width:768px){.app-grid{grid-template-columns:1fr!important;max-width:100%!important;}.social .sticker-noodle{display:none!important;}}
 
 
+/* === v4.6 store-card header tidy: rank pill hugs its text, status badge drops under the name ===
+   The v3.2 rule `.store-card > *:not(.card-shine){position:relative}` had turned the
+   absolute corner badge into a full-width block, so SSR/R/NEW stretched across the card
+   with a long empty gold tail. And .store-top's flex row clipped long status labels
+   (盛大開幕 / 夥伴募集中 / 11 月籌備) against the narrow card edge. */
+.store-card .card-rarity{
+  display:inline-block;
+  width:auto;
+  margin:0 0 .55rem;
+}
+.store-card .store-top{
+  flex-direction:column;
+  align-items:flex-start;
+  gap:.42rem;
+}
+.store-card .store-top span{
+  margin-left:0;
+  align-self:flex-start;
+  white-space:nowrap;
+}
+
 /* === v4.5 gacha readability: dim+blur backdrop so the pulled card never collides with the page behind ===
    Old v3.5/v3.6 backdrop was 18% + no blur -> underlying store cards & the
    "再點一次收回去" hint bled through and overlapped on both desktop and mobile. */
