@@ -684,6 +684,24 @@ footer {
 @media(max-width:768px){.app-grid{grid-template-columns:1fr!important;max-width:100%!important;}.social .sticker-noodle{display:none!important;}}
 
 
+/* === v4.7 franchise art + money sticker: transparent cutouts (kill the white box) ===
+   The base `.franchise-card img{background:white}` was painting a white box behind
+   BOTH the girl illustration and the money-gun sticker. Now that both images are
+   true cutouts, drop the box and give them a silhouette-following drop-shadow. */
+.franchise-card > img{
+  background:transparent!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  filter:drop-shadow(0 16px 28px rgba(61,35,20,.34));
+  transition:transform .25s, filter .25s;
+}
+.franchise-card:hover > img{filter:drop-shadow(0 22px 36px rgba(61,35,20,.42))!important;}
+.franchise-card .sticker-money img{
+  background:transparent!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+
 /* === v4.6 store-card header tidy: rank pill hugs its text, status badge drops under the name ===
    The v3.2 rule `.store-card > *:not(.card-shine){position:relative}` had turned the
    absolute corner badge into a full-width block, so SSR/R/NEW stretched across the card
