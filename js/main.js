@@ -215,8 +215,9 @@ document.querySelectorAll('.claim-card').forEach(card => {
     clearTimer = setTimeout(() => { modal.innerHTML = ''; }, 240);
   }
 
-  function openBubble(d, idx) {
+  function openBubble(d, idx, source) {
     if (!d) return;
+    gaTrack('view_dish', { dish: d.name, source: source || 'unknown' });
     if (clearTimer) { clearTimeout(clearTimer); clearTimer = null; } // don't let a pending close wipe us
     const tags = (d.tags || []).map(t => `<span class="bubble-tag">${esc(t)}</span>`).join('');
     const diet = [];
@@ -259,7 +260,7 @@ document.querySelectorAll('.claim-card').forEach(card => {
         if (e.target.closest('a')) return;
         e.preventDefault();
         if (modal.classList.contains('show')) closeBubble();
-        else openBubble(INLINE[card.dataset.id], i);
+        else openBubble(INLINE[card.dataset.id], i, 'menu_card');
       };
       card.addEventListener('click', handler);
       card.addEventListener('keydown', (e) => {
@@ -282,7 +283,7 @@ document.querySelectorAll('.claim-card').forEach(card => {
         chip.addEventListener('click', (e) => {
           e.preventDefault();
           if (modal.classList.contains('show')) closeBubble();
-          else openBubble(d, i);
+          else openBubble(d, i, 'marquee');
         });
       });
     }).catch(() => {});
@@ -323,4 +324,65 @@ document.querySelectorAll('.claim-card').forEach(card => {
     clone.setAttribute('aria-hidden', 'true');
     track.appendChild(clone);
   });
+})();
+
+
+// ---- GA4 behaviour tracking: custom events on top of Enhanced Measurement ----
+// Hoisted so the bubble popup (view_dish) can call it too.
+function gaTrack(name, params) {
+  try { if (typeof window.gtag === 'function') window.gtag('event', name, params || {}); } catch (e) {}
+}
+(() => {
+  const PLAT = { panda: 'foodpanda', uber: 'ubereats', self: 'self_pickup', map: 'google_maps' };
+  const storeOf = (el) => {
+    const card = el.closest('.store-card');
+    const s = card && card.querySelector('.store-top strong');
+    return s ? s.textContent.trim() : undefined;
+  };
+  // Capture phase so we log even if a downstream handler stops propagation.
+  document.addEventListener('click', (e) => {
+    // 1) order platform clicks — the money click (store cards + gacha-modal clones)
+    const plink = e.target.closest('.store-links a');
+    if (plink) {
+      const cls = ['panda', 'uber', 'self', 'map'].find((c) => plink.classList.contains(c));
+      gaTrack('order_click', {
+        platform: PLAT[cls] || 'other',
+        store: storeOf(plink),
+        location: plink.closest('.gacha-modal') ? 'gacha_modal' : 'store_card',
+      });
+      return;
+    }
+    // claim-verified card (not an <a>)
+    if (e.target.closest('.claim-card')) { gaTrack('claim_open', {}); return; }
+
+    const a = e.target.closest('a');
+    if (!a) return;
+    const href = a.getAttribute('href') || '';
+
+    // 2) view menu
+    if (href === '/menu/' || href === '/menu') {
+      const src = a.classList.contains('marquee-cta') ? 'marquee_cta'
+        : a.classList.contains('mobile-menu-link') ? 'mobile_bar'
+        : a.closest('.nav') ? 'nav'
+        : a.closest('.order-menu-link') ? 'order_section'
+        : 'other';
+      gaTrack('view_menu', { source: src });
+      return;
+    }
+    // 3) order CTA (#order anchors)
+    if (href === '#order' || href === '/#order') {
+      const src = a.classList.contains('mobile-order') ? 'mobile_bar'
+        : a.closest('#bubbleModal') ? 'dish_bubble'
+        : a.closest('.hero') ? 'hero'
+        : a.closest('.menu-back') ? 'menu_back'
+        : 'other';
+      gaTrack('order_cta', { source: src });
+      return;
+    }
+    // 4) franchise CTA
+    if (a.closest('#franchise') && href.includes('4force.com.tw')) { gaTrack('franchise_cta', {}); return; }
+    // 5) social
+    const soc = e.target.closest('.social-buttons a, .app-grid a');
+    if (soc) { gaTrack('social_click', { platform: (soc.querySelector('strong') || soc).textContent.trim() }); return; }
+  }, true);
 })();
