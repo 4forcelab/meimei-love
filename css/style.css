@@ -927,8 +927,9 @@ footer {
 .mq-chip.veg{color:var(--tiff-d);border-color:rgba(105,183,173,.42);
   background:linear-gradient(145deg,#fff,rgba(214,239,236,.62));}
 .marquee-cta{display:block;text-align:center;margin-top:1rem;font-family:var(--round);font-weight:900;
-  letter-spacing:.04em;font-size:.9rem;color:var(--pink-d);}
-.menu-marquee:hover .marquee-cta{text-decoration:underline;text-underline-offset:4px;}
+  letter-spacing:.04em;font-size:.9rem;color:var(--pink-d);text-decoration:none;}
+.marquee-cta:hover{text-decoration:underline;text-underline-offset:4px;}
+.mq-chip.mq-clickable{cursor:pointer;}
 @media(max-width:600px){
   .mq-chip{font-size:.82rem;padding:.42rem .9rem;}
   .t-left{animation-duration:26s;}.t-right{animation-duration:32s;}

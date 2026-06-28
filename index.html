@@ -107,9 +107,9 @@
     </div>
   </div>
 
-  <!-- 菜單彈幕：刷過一堆鍋，整條點下去 → /menu/。雙排反向流動。
-       品名取自 data/menu-master.json 的 display_name（手選代表作；菜單大改時回來補）。 -->
-  <a class="menu-marquee" href="/menu/" aria-label="看完整菜單">
+  <!-- 菜單彈幕：點一顆口味 → 就地彈出那道鍋的抽卡氣泡（不跳頁，由 main.js 接 data/menu-bubble.json）。
+       雙排反向流動。品名取自 data/menu-master.json 的 display_name（手選代表作；菜單大改時回來補）。 -->
+  <div class="menu-marquee">
     <div class="marquee-viewport">
       <div class="marquee-track t-left">
         <div class="marquee-set">
@@ -122,8 +122,8 @@
         </div>
       </div>
     </div>
-    <span class="marquee-cta">這些鍋都點得到 · 看完整菜單 →</span>
-  </a>
+    <a class="marquee-cta" href="/menu/">這些鍋都點得到 · 看完整菜單 →</a>
+  </div>
 
   <div class="order-stage">
     <div class="order-girl reveal"><img src="images/order-look.png" alt="鍋美美等你點餐"></div>

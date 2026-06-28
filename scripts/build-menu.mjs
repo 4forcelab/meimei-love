@@ -420,6 +420,10 @@ ${categories.map(renderSection).join("\n\n")}
 fs.mkdirSync(outputDir, { recursive: true });
 fs.writeFileSync(outputPath, html);
 
+// Shared bubble payload so the homepage marquee can open the same flavour cards
+// without navigating to /menu/ (keeps the gacha feel on the index too).
+fs.writeFileSync(path.join(root, "data", "menu-bubble.json"), JSON.stringify(bubblePayload));
+
 const hiddenItems = sourceItems.filter((item) => item.available === false);
 
 console.log(

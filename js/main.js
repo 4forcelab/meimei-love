@@ -171,21 +171,38 @@ document.querySelectorAll('.claim-card').forEach(card => {
 });
 
 
-// /menu/ : gacha-style flavour bubble popup. No-op on pages without the markup.
+// Gacha-style flavour bubble popup. Shared by /menu/ item cards and the homepage
+// marquee chips, so clicking a flavour opens the same card in place (no page jump).
 (() => {
-  const dataEl = document.getElementById('menu-bubble-data');
-  const backdrop = document.getElementById('bubbleBackdrop');
-  const modal = document.getElementById('bubbleModal');
-  if (!dataEl || !backdrop || !modal) return;
+  const inlineEl = document.getElementById('menu-bubble-data');
+  const marquee = document.querySelector('.menu-marquee');
+  if (!inlineEl && !marquee) return; // nothing on this page wants bubbles
 
-  let DATA = {};
-  try { DATA = JSON.parse(dataEl.textContent || '{}'); } catch (e) { return; }
+  // Reuse the menu page's containers, or create them on the homepage.
+  let backdrop = document.getElementById('bubbleBackdrop');
+  if (!backdrop) {
+    backdrop = document.createElement('div');
+    backdrop.id = 'bubbleBackdrop';
+    backdrop.className = 'bubble-backdrop';
+    backdrop.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(backdrop);
+  }
+  let modal = document.getElementById('bubbleModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'bubbleModal';
+    modal.className = 'bubble-modal';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(modal);
+  }
 
   const STICKERS = [
-    '../images/meimei-sticker-02-nobg.png',
-    '../images/meimei-sticker-04-nobg.png',
-    '../images/meimei-sticker-06-nobg.png',
-    '../images/meimei-sticker-07-nobg.png',
+    '/images/meimei-sticker-02-nobg.png',
+    '/images/meimei-sticker-04-nobg.png',
+    '/images/meimei-sticker-06-nobg.png',
+    '/images/meimei-sticker-07-nobg.png',
   ];
   const esc = (s) => String(s == null ? '' : s)
     .replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
@@ -198,8 +215,7 @@ document.querySelectorAll('.claim-card').forEach(card => {
     clearTimer = setTimeout(() => { modal.innerHTML = ''; }, 240);
   }
 
-  function openBubble(id, idx) {
-    const d = DATA[id];
+  function openBubble(d, idx) {
     if (!d) return;
     if (clearTimer) { clearTimeout(clearTimer); clearTimer = null; } // don't let a pending close wipe us
     const tags = (d.tags || []).map(t => `<span class="bubble-tag">${esc(t)}</span>`).join('');
@@ -234,18 +250,44 @@ document.querySelectorAll('.claim-card').forEach(card => {
     });
   }
 
-  Array.from(document.querySelectorAll('.m-item.has-bubble')).forEach((card, i) => {
-    const handler = (e) => {
-      if (e.target.closest('a')) return;
-      e.preventDefault();
-      if (modal.classList.contains('show')) closeBubble();
-      else openBubble(card.dataset.id, i);
-    };
-    card.addEventListener('click', handler);
-    card.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') handler(e);
+  // /menu/ item cards — data embedded inline, keyed by id.
+  if (inlineEl) {
+    let INLINE = {};
+    try { INLINE = JSON.parse(inlineEl.textContent || '{}'); } catch (e) { INLINE = {}; }
+    Array.from(document.querySelectorAll('.m-item.has-bubble')).forEach((card, i) => {
+      const handler = (e) => {
+        if (e.target.closest('a')) return;
+        e.preventDefault();
+        if (modal.classList.contains('show')) closeBubble();
+        else openBubble(INLINE[card.dataset.id], i);
+      };
+      card.addEventListener('click', handler);
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') handler(e);
+      });
     });
-  });
+  }
+
+  // Homepage marquee chips — fetch the shared payload, match chip text to a dish.
+  if (marquee) {
+    fetch('/data/menu-bubble.json').then((r) => r.json()).then((DATA) => {
+      const byName = {};
+      Object.values(DATA).forEach((d) => { byName[d.name] = d; });
+      marquee.querySelectorAll('.mq-chip').forEach((chip, i) => {
+        const raw = chip.childNodes[0] ? chip.childNodes[0].textContent : chip.textContent;
+        const name = raw.replace(/🌱/g, '').trim();
+        const d = byName[name];
+        if (!d) return;
+        chip.classList.add('mq-clickable');
+        chip.addEventListener('click', (e) => {
+          e.preventDefault();
+          if (modal.classList.contains('show')) closeBubble();
+          else openBubble(d, i);
+        });
+      });
+    }).catch(() => {});
+  }
+
   backdrop.addEventListener('click', closeBubble);
   modal.addEventListener('click', (e) => { if (!e.target.closest('a')) closeBubble(); });
   window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeBubble(); });
