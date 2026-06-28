@@ -69,7 +69,10 @@
     <a href="#franchise">一起開店</a>
   </div>
 </nav>
-<a class="mobile-order" href="#order">今天辛苦了，點一鍋</a>
+<div class="mobile-bar">
+  <a class="mobile-order" href="#order">立即點餐</a>
+  <a class="mobile-menu-link" href="/menu/">看菜單</a>
+</div>
 
 <section id="hero" class="hero melt-bg">
   <div class="hero-copy reveal">
@@ -103,6 +106,25 @@
       <a class="btn ghost" href="/menu/">先看看有什麼鍋 → 看菜單</a>
     </div>
   </div>
+
+  <!-- 菜單彈幕：刷過一堆鍋，整條點下去 → /menu/。雙排反向流動。
+       品名取自 data/menu-master.json 的 display_name（手選代表作；菜單大改時回來補）。 -->
+  <a class="menu-marquee" href="/menu/" aria-label="看完整菜單">
+    <div class="marquee-viewport">
+      <div class="marquee-track t-left">
+        <div class="marquee-set">
+          <span class="mq-chip">美美原味鍋</span><span class="mq-chip">牛頭沙茶鍋</span><span class="mq-chip">牧場牛奶鍋</span><span class="mq-chip">清邁椰奶鍋</span><span class="mq-chip">馥郁南瓜鍋</span><span class="mq-chip">南洋咖哩鍋</span><span class="mq-chip">韓式泡菜鍋</span><span class="mq-chip">西西里紅醬番茄鍋</span><span class="mq-chip">秘製麻辣鍋</span><span class="mq-chip">天香孜然鍋</span><span class="mq-chip">正宗東北酸白菜豬肉鍋</span><span class="mq-chip">霸總的胸膛</span><span class="mq-chip">療癒壽喜風味鍋</span><span class="mq-chip">皮蛋火鍋肉片粥</span><span class="mq-chip">煙燻豬耳朵</span>
+        </div>
+      </div>
+      <div class="marquee-track t-right">
+        <div class="marquee-set">
+          <span class="mq-chip">剝皮辣椒味噌鍋</span><span class="mq-chip">泰式酸辣鍋</span><span class="mq-chip">爆腹除餓鍋</span><span class="mq-chip">麻辣燙燙</span><span class="mq-chip">火鍋料我都要</span><span class="mq-chip">鬆倒菜菜脂</span><span class="mq-chip">正宗東北酸白菜牛肉鍋</span><span class="mq-chip veg">(素)美美原味鍋 🌱</span><span class="mq-chip veg">(素)南洋咖哩鍋 🌱</span><span class="mq-chip veg">(素)牧場牛奶鍋 🌱</span><span class="mq-chip veg">黃金泡菜 🌱</span><span class="mq-chip">玉米火鍋肉片粥</span><span class="mq-chip">逐玉雙蛋粥</span><span class="mq-chip">沙茶皮蛋肉片粥</span><span class="mq-chip veg">黃金金針菇 🌱</span>
+        </div>
+      </div>
+    </div>
+    <span class="marquee-cta">這些鍋都點得到 · 看完整菜單 →</span>
+  </a>
+
   <div class="order-stage">
     <div class="order-girl reveal"><img src="images/order-look.png" alt="鍋美美等你點餐"></div>
     <div class="store-grid">

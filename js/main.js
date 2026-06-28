@@ -250,3 +250,13 @@ document.querySelectorAll('.claim-card').forEach(card => {
   modal.addEventListener('click', (e) => { if (!e.target.closest('a')) closeBubble(); });
   window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeBubble(); });
 })();
+
+
+// Homepage menu marquee: duplicate each set so the -50% translate loops seamlessly.
+document.querySelectorAll('.menu-marquee .marquee-track').forEach((track) => {
+  const set = track.querySelector('.marquee-set');
+  if (!set) return;
+  const clone = set.cloneNode(true);
+  clone.setAttribute('aria-hidden', 'true');
+  track.appendChild(clone);
+});
