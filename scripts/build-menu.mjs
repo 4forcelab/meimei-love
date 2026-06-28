@@ -12,6 +12,30 @@ const categories = master.categories || [];
 const sourceItems = master.items || [];
 const items = sourceItems.filter((item) => item.available !== false);
 
+// Optional web-authored flavour copy (kept separate from the iCHEF SKU truth so an
+// upstream menu-master sync can't clobber it). Maps item id -> { bubble, tags }.
+const copyPath = path.join(root, "data", "menu-copy.json");
+let menuCopy = {};
+let includedSets = {};
+if (fs.existsSync(copyPath)) {
+  try {
+    const parsed = JSON.parse(fs.readFileSync(copyPath, "utf8"));
+    menuCopy = parsed.items || {};
+    includedSets = parsed.included || {};
+  } catch (err) {
+    console.warn("menu-copy.json parse failed, rendering without bubbles:", err.message);
+  }
+}
+
+// Categories that are "鍋物" (full pots) and therefore carry the standard included set.
+// 粥/小菜/加點料 are single items, not pots — no standard set. choice_saver waits for copy direction.
+const STD_POT_CATEGORIES = new Set(["signature", "specialty", "sauerkraut", "veg_pot"]);
+const includedFor = (item) => {
+  if (!STD_POT_CATEGORIES.has(item.category)) return [];
+  const set = item.dietary?.vegetarian === true ? includedSets.veg : includedSets.meat;
+  return Array.isArray(set) ? set : [];
+};
+
 const sectionCopy = {
   signature: {
     eyebrow: "CLASSIC",
@@ -45,6 +69,18 @@ const sectionCopy = {
     eyebrow: "ADD-ONS",
     tail: "點鍋的時候再搭。",
   },
+};
+
+// B. 每區巨大半透明背景梗字（沿用首頁鏡花水月手法）
+const ghostMap = {
+  signature: "王道",
+  specialty: "異國參戰",
+  sauerkraut: "酸·奧義",
+  choice_saver: "我全都要",
+  veg_pot: "修行中",
+  porridge: "養生回合",
+  side: "冷靜一下",
+  addon: "裝備強化",
 };
 
 const escapeHtml = (value = "") =>
@@ -111,16 +147,49 @@ const breadcrumbSchema = {
 const renderVegTag = (item) =>
   item.dietary?.vegetarian === true ? '<span class="m-veg">素 🌱</span>' : "";
 
-const renderItem = (item) =>
-  `      <li class="m-item">${escapeHtml(item.display_name)}${renderVegTag(item)}</li>`;
+const hasBubble = (item) => Boolean(menuCopy[item.id]?.bubble);
+
+const renderItem = (item) => {
+  const open = hasBubble(item);
+  const isPick = item.category === "signature"; // A. 招牌區＝抽卡 PICK UP
+  const isHell = item.id === "mala"; // D. 麻辣鍋＝登入魔界彩蛋
+  const cls = `m-item${open ? " has-bubble" : ""}${isPick ? " m-pick" : ""}${isHell ? " m-hellgate" : ""}`;
+  const attrs = open
+    ? ` data-id="${escapeHtml(item.id)}" role="button" tabindex="0" aria-label="${escapeHtml(item.display_name)}，點擊看介紹"`
+    : "";
+  const shine = open ? '<i class="m-shine" aria-hidden="true"></i>' : "";
+  const badge = isPick ? '<span class="m-badge" aria-hidden="true">PICK UP</span>' : "";
+  const peek = open ? '<span class="m-peek" aria-hidden="true">介紹</span>' : "";
+  return `      <li class="${cls}"${attrs}>${shine}${badge}<span class="m-name">${escapeHtml(item.display_name)}</span>${renderVegTag(item)}${peek}</li>`;
+};
+
+// Payload the popup JS reads on click — only items that actually have copy.
+const bubblePayload = {};
+for (const item of items) {
+  const copy = menuCopy[item.id];
+  if (!copy?.bubble) continue;
+  bubblePayload[item.id] = {
+    name: item.display_name,
+    veg: item.dietary?.vegetarian === true,
+    egg: item.dietary?.contains_egg === true,
+    bubble: copy.bubble,
+    tags: Array.isArray(copy.tags) ? copy.tags : [],
+    included: includedFor(item),
+  };
+}
 
 const renderSection = (category) => {
   const copy = sectionCopy[category.id] || { eyebrow: "MENU", tail: "" };
   const sectionItems = byCategory.get(category.id) || [];
   const gridClass = category.id === "addon" ? "m-grid m-grid-dense" : "m-grid";
 
+  const ghost = ghostMap[category.id] || "";
+  const ghostEl = ghost
+    ? `    <span class="m-ghost" aria-hidden="true">${escapeHtml(ghost)}</span>\n`
+    : "";
+
   return `  <section class="m-section reveal" id="cat-${escapeHtml(category.id)}">
-    <div class="m-head">
+${ghostEl}    <div class="m-head">
       <p class="eyebrow">${escapeHtml(copy.eyebrow)}</p>
       <h2>${escapeHtml(category.display)}</h2>
       <p class="m-tail">${escapeHtml(copy.tail)}</p>
@@ -282,13 +351,16 @@ ${jsonScript(breadcrumbSchema)}
 
 <header class="menu-hero melt-bg">
   <p class="eyebrow">MEI MEI HOT POT · MENU</p>
+  <p class="m-gacha-banner">🎰 本期池 · 火鍋全明星</p>
   <h1>先看看有什麼鍋，<br>再決定今天要被哪一鍋拯救。</h1>
   <p class="lead">經典鍋、風味鍋、草食系、粥品、加點料，慢慢看。<br>選好了再去最近的店點，鍋美美處理。</p>
-  <p class="note">標 <span style="color:#5E8B4C;font-weight:700;">素 🌱</span> 的是素食品項 · 點餐請至各店外送平台</p>
+  <p class="note">點一下有 <span style="color:#C9923E;font-weight:700;">介紹</span> 的鍋，鍋美美跟你說它的故事 · 標 <span style="color:#5E8B4C;font-weight:700;">素 🌱</span> 的是素食</p>
   <span class="sugar s1">✦</span><span class="sugar s2">✧</span><span class="sugar s3">⋆</span><span class="sugar s4">✦</span>
 </header>
 
 <main class="menu-flow">
+<span class="m-corner m-corner-1" aria-hidden="true"><img src="../images/meimei-sticker-04-nobg.png" alt=""></span>
+<span class="m-corner m-corner-2" aria-hidden="true"><img src="../images/meimei-sticker-07-nobg.png" alt=""></span>
 ${categories.map(renderSection).join("\n\n")}
 
 <a class="menu-back" href="/#order">← 回首頁，直接點餐</a>
@@ -299,6 +371,11 @@ ${categories.map(renderSection).join("\n\n")}
   <p>我們只承諾守得住的事：標素的，就是無肉。其餘的細節（含蛋、五辛、鍋具分離程度），我們誠實告訴你，讓你依自己的標準自己決定。做得乾淨是我們的本分，但本分不等於認證——這點我們不裝。</p>
 </section>
 </main>
+
+<!-- 抽卡式對話氣泡彈窗（JS 依點擊的品項填內容） -->
+<div class="bubble-backdrop" id="bubbleBackdrop" aria-hidden="true"></div>
+<div class="bubble-modal" id="bubbleModal" role="dialog" aria-modal="true" aria-hidden="true"></div>
+<script type="application/json" id="menu-bubble-data">${jsonScript(bubblePayload)}</script>
 
 <footer>
   <strong>鍋美美食豔室</strong>

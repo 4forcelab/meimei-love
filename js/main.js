@@ -169,3 +169,81 @@ document.querySelectorAll('.claim-card').forEach(card => {
     }
   });
 });
+
+
+// /menu/ : gacha-style flavour bubble popup. No-op on pages without the markup.
+(() => {
+  const dataEl = document.getElementById('menu-bubble-data');
+  const backdrop = document.getElementById('bubbleBackdrop');
+  const modal = document.getElementById('bubbleModal');
+  if (!dataEl || !backdrop || !modal) return;
+
+  let DATA = {};
+  try { DATA = JSON.parse(dataEl.textContent || '{}'); } catch (e) { return; }
+
+  const STICKERS = [
+    '../images/meimei-sticker-02-nobg.png',
+    '../images/meimei-sticker-04-nobg.png',
+    '../images/meimei-sticker-06-nobg.png',
+    '../images/meimei-sticker-07-nobg.png',
+  ];
+  const esc = (s) => String(s == null ? '' : s)
+    .replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+
+  let clearTimer = null;
+  function closeBubble() {
+    backdrop.classList.remove('show');
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden', 'true');
+    clearTimer = setTimeout(() => { modal.innerHTML = ''; }, 240);
+  }
+
+  function openBubble(id, idx) {
+    const d = DATA[id];
+    if (!d) return;
+    if (clearTimer) { clearTimeout(clearTimer); clearTimer = null; } // don't let a pending close wipe us
+    const tags = (d.tags || []).map(t => `<span class="bubble-tag">${esc(t)}</span>`).join('');
+    const diet = [];
+    if (d.veg) diet.push('素 🌱');
+    if (d.egg) diet.push('含蛋');
+    const dietLine = diet.length ? `<p class="bubble-diet">${diet.join('・')}</p>` : '';
+    const inc = Array.isArray(d.included) && d.included.length
+      ? `<p class="bubble-included"><b>鍋物均含</b>${d.included.map(esc).join('・')}</p>`
+      : '';
+    const sticker = STICKERS[idx % STICKERS.length];
+    modal.innerHTML =
+      `<span class="bubble-sticker"><img src="${sticker}" alt="鍋美美"></span>` +
+      `<div class="bubble-card">` +
+        `<span class="bubble-shine" aria-hidden="true"></span>` +
+        `<div class="bubble-kicker">MEI MEI 說</div>` +
+        `<h3 class="bubble-name">${esc(d.name)}</h3>` +
+        (tags ? `<div class="bubble-tags">${tags}</div>` : '') +
+        `<p class="bubble-text">${esc(d.bubble)}</p>` +
+        inc +
+        dietLine +
+        `<a class="bubble-cta" href="/#order">想吃這鍋 → 去點餐</a>` +
+      `</div>` +
+      `<div class="bubble-hint">點旁邊收回去</div>`;
+    modal.setAttribute('aria-hidden', 'false');
+    requestAnimationFrame(() => {
+      backdrop.classList.add('show');
+      modal.classList.add('show');
+    });
+  }
+
+  Array.from(document.querySelectorAll('.m-item.has-bubble')).forEach((card, i) => {
+    const handler = (e) => {
+      if (e.target.closest('a')) return;
+      e.preventDefault();
+      if (modal.classList.contains('show')) closeBubble();
+      else openBubble(card.dataset.id, i);
+    };
+    card.addEventListener('click', handler);
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') handler(e);
+    });
+  });
+  backdrop.addEventListener('click', closeBubble);
+  modal.addEventListener('click', (e) => { if (!e.target.closest('a')) closeBubble(); });
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeBubble(); });
+})();
