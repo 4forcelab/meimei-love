@@ -386,3 +386,63 @@ function gaTrack(name, params) {
     if (soc) { gaTrack('social_click', { platform: (soc.querySelector('strong') || soc).textContent.trim() }); return; }
   }, true);
 })();
+
+
+// v5.3 hero glow-up: char reveal (C) + 3D tilt / depth parallax (A+B).
+(() => {
+  const hero = document.querySelector('#hero');
+  if (!hero) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // C: split h1 text nodes into per-char spans (keeps <br> and the pink <span>).
+  if (!reduce) {
+    const h1 = hero.querySelector('h1');
+    if (h1) {
+      let ci = 0;
+      const walk = (node) => {
+        Array.from(node.childNodes).forEach((n) => {
+          if (n.nodeType === 3) {
+            const PUNCT = '。，、！？；：!?.,';
+            const frag = document.createDocumentFragment();
+            let prev = null;
+            for (const ch of n.textContent) {
+              if (!ch.trim()) { frag.appendChild(document.createTextNode(ch)); prev = null; continue; }
+              // glue punctuation onto the previous char so it can't wrap alone to a line start
+              if (prev && PUNCT.includes(ch)) { prev.textContent += ch; continue; }
+              const s = document.createElement('span');
+              s.className = 'hero-char';
+              s.style.setProperty('--ci', ci++);
+              s.textContent = ch;
+              frag.appendChild(s);
+              prev = s;
+            }
+            n.replaceWith(frag);
+          } else if (n.nodeType === 1 && n.tagName !== 'BR') {
+            walk(n);
+          }
+        });
+      };
+      walk(h1);
+      hero.classList.add('hero-reveal-on');
+    }
+  }
+
+  // A+B: mouse-tracked tilt + parallax vars — fine-pointer desktop only.
+  if (reduce || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  let raf = 0;
+  hero.addEventListener('mousemove', (e) => {
+    if (raf) return;
+    raf = requestAnimationFrame(() => {
+      const r = hero.getBoundingClientRect();
+      const nx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+      const ny = ((e.clientY - r.top) / r.height - 0.5) * 2;
+      hero.style.setProperty('--hx', nx.toFixed(3));
+      hero.style.setProperty('--hy', ny.toFixed(3));
+      raf = 0;
+    });
+  });
+  hero.addEventListener('mouseleave', () => {
+    hero.style.setProperty('--hx', 0);
+    hero.style.setProperty('--hy', 0);
+  });
+})();

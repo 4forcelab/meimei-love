@@ -982,3 +982,54 @@ footer {
 @keyframes moodThrob{0%,100%{transform:scale(1) rotate(0)}42%{transform:scale(1.24) rotate(-7deg)}58%{transform:scale(1.08) rotate(5deg)}}
 @media(max-width:768px){.mq-mood{animation:none!important;}}
 @media(prefers-reduced-motion:reduce){.mq-mood{animation:none!important;}}
+
+
+/* === v5.3 hero glow-up: 3D tilt card + depth parallax + text reveal ===
+   A: hero art becomes a mouse-tracking 3D card with a moving glare (SSR-card feel).
+   B: melt blob / cream orbit / copy / sugars drift at different depths.
+      Parallax uses the `translate` property (independent of `transform`) so it
+      composes with the existing melt/sparkle keyframes instead of fighting them.
+   C: h1 characters reveal blur→sharp (迷糊→認真), lead fades in after.
+   JS gates A+B to fine-pointer desktop + no reduced-motion; vars default to 0. */
+.hero{--hx:0;--hy:0;perspective:1200px;}
+.hero-card3d{
+  display:block;position:relative;transform-style:preserve-3d;
+  transform:rotateX(calc(var(--hy,0)*-6deg)) rotateY(calc(var(--hx,0)*9deg));
+  transition:transform .18s ease-out;
+  animation:heroFloatY 4.8s ease-in-out infinite;
+}
+.hero-card3d img{display:block;transform:rotate(-1.5deg);animation:none;}
+.hero-card3d::after{
+  content:"";position:absolute;inset:0;border-radius:32px;pointer-events:none;
+  background:radial-gradient(circle at calc(50% + var(--hx,0)*45%) calc(38% + var(--hy,0)*40%),
+    rgba(255,255,255,.4),rgba(255,255,255,.06) 42%,transparent 64%);
+  mix-blend-mode:screen;opacity:0;transition:opacity .25s;
+}
+.hero:hover .hero-card3d::after{opacity:1;}
+@keyframes heroFloatY{0%,100%{translate:0 0}50%{translate:0 -14px}}
+/* B. depth layers (fallback 0 keeps other melt-bg pages untouched) */
+.hero.melt-bg::before{translate:calc(var(--hx,0)*22px) calc(var(--hy,0)*14px);}
+.hero .cream-orbit{translate:calc(var(--hx,0)*-16px) calc(var(--hy,0)*-10px);}
+.hero .hero-copy{translate:calc(var(--hx,0)*8px) calc(var(--hy,0)*5px);}
+.hero .sugar.s1{translate:calc(var(--hx,0)*30px) calc(var(--hy,0)*22px);}
+.hero .sugar.s2{translate:calc(var(--hx,0)*-26px) calc(var(--hy,0)*18px);}
+.hero .sugar.s3{translate:calc(var(--hx,0)*38px) calc(var(--hy,0)*-24px);}
+.hero .sugar.s4{translate:calc(var(--hx,0)*-34px) calc(var(--hy,0)*26px);}
+/* C. text reveal (spans injected by JS; .hero-reveal-on set only when JS ran) */
+.hero-char{
+  display:inline-block;opacity:0;filter:blur(9px);
+  transform:translateY(.16em) rotate(2deg);
+  animation:heroCharIn .6s cubic-bezier(.2,.8,.3,1) forwards;
+  animation-delay:calc(var(--ci,0)*45ms + 120ms);
+}
+/* injected char spans must NOT match the `.hero h1 span` pink+underline rule */
+.hero h1 .hero-char{color:inherit;}
+.hero h1 .hero-char::after{content:none;}
+@keyframes heroCharIn{to{opacity:1;filter:blur(0);transform:none}}
+.hero-reveal-on .hero-lead{opacity:0;animation:heroLeadIn .8s ease forwards;animation-delay:.85s;}
+@keyframes heroLeadIn{to{opacity:1}}
+@media(prefers-reduced-motion:reduce){
+  .hero-card3d{animation:none;transform:none;}
+  .hero-char{animation:none;opacity:1;filter:none;transform:none;}
+  .hero-reveal-on .hero-lead{animation:none;opacity:1;}
+}
